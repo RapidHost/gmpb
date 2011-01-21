@@ -1,0 +1,13 @@
+"Gamemode"
+{
+	"name"		"Paintball"
+	"version"	"1.8"
+
+	"author_name"	"GMPB Team"
+	"author_email"	""
+	"author_url"	""
+	
+	"icon"		""
+	"info"		""
+	"hide"		"0"
+}
