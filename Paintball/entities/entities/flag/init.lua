@@ -10,7 +10,8 @@ function ENT:Initialize()
 	
 	self:PhysicsInit( SOLID_VPHYSICS )
 	self:SetMoveType( MOVETYPE_NONE )
-	self:SetSolid( SOLID_NONE )
+	self:SetSolid( SOLID_VPHYSICS )
+	self:SetCollisionGroup( COLLISION_GROUP_WORLD )
 	self:SetTrigger( true )
 	
 	util.PrecacheModel( "models/roller_spikes.mdl" )
@@ -27,10 +28,11 @@ function ENT:SetUp( teamid, base )
 end
 
 function ENT:Return( ply, shouldcall )
-	self:SetParent( NULL )
-	self:SetOwner( NULL )
+	self:SetParent()
+	self:SetOwner()
 	self:SetMoveType( MOVETYPE_NONE )
-	self:SetSolid( SOLID_NONE )
+	self:SetSolid( SOLID_VPHYSICS )
+	self:SetCollisionGroup( COLLISION_GROUP_WORLD )
 	self:SetTrigger( true )
 	self:SetModel( "models/roller.mdl" )
 	self:SetPos( self:GetFlagBase():GetPos() + Vector( 0, 0, 64 ) )
@@ -66,13 +68,14 @@ function ENT:PlayerDropped( ply )
 	self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
 	self:SetCollisionBounds( Vector( -24, -24, -40 ), Vector( 24, 24, 24 ) )
 	self:SetTrigger( true )
-	self:SetParent( NULL )
-	self:SetOwner( NULL )
+	self:SetParent()
+	self:SetOwner()
 	self:PhysWake()
 	hook.Call( "OnPlayerFlagDropped", GAMEMODE, ply, self )
 end
 
 function ENT:StartTouch( ent )
+	print( self, ent )
 	if ent:IsPlayer() and !IsValid( ent:GetOwner() ) then
 		if ent:Team() != self:GetTeam() then
 			self:PlayerTake( ent )

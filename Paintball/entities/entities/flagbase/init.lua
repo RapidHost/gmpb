@@ -26,7 +26,7 @@ end
 
 function ENT:StartTouch( ent )
 	if ent:IsPlayer() and ent:HasFlag() and ent:Team() == self:GetTeam() then
-		self:PlayerCapture( ent )
+		ent:GetFlag():PlayerCapture( ent )
 	end
 end
 
