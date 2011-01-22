@@ -1,184 +1,214 @@
-
 include( 'shared.lua' )
-include( 'cl_splashscreen.lua' )
-include( 'cl_selectscreen.lua' )
-include( 'cl_gmchanger.lua' )
-include( 'cl_help.lua' )
-include( 'skin.lua' )
-include( 'vgui/vgui_hudlayout.lua' )
-include( 'vgui/vgui_hudelement.lua' )
-include( 'vgui/vgui_hudbase.lua' )
-include( 'vgui/vgui_hudcommon.lua' )
 include( 'cl_hud.lua' )
-include( 'cl_deathnotice.lua' )
-include( 'cl_scores.lua' )
-include( 'cl_notify.lua' )
-include('cl_scoreboard.lua')
-include('cl_buymenu.lua')
-include('cl_killicons.lua')
-include('team_select.lua')
-include('hud.lua')
 
-language.Add( "env_laser", "Laser" )
-language.Add( "env_explosion", "Explosion" )
-language.Add( "func_door", "Door" )
-language.Add( "func_door_rotating", "Door" )
-language.Add( "trigger_hurt", "Hazard" )
-language.Add( "func_rotating", "Hazard" )
-language.Add( "worldspawn", "Gravity" )
-language.Add( "prop_physics", "Prop" )
-language.Add( "prop_physics_respawnable", "Prop" )
-language.Add( "prop_physics_multiplayer", "Prop" )
-language.Add( "entityflame", "Fire" )
-
-surface.CreateFont( "Trebuchet MS", 69, 700, true, false, "FRETTA_HUGE" )
-surface.CreateFont( "Trebuchet MS", 69, 700, true, false, "FRETTA_HUGE_SHADOW", true )
-surface.CreateFont( "Trebuchet MS", 40, 700, true, false, "FRETTA_LARGE" )
-surface.CreateFont( "Trebuchet MS", 40, 700, true, false, "FRETTA_LARGE_SHADOW", true )
-surface.CreateFont( "Trebuchet MS", 19, 700, true, false, "FRETTA_MEDIUM" )
-surface.CreateFont( "Trebuchet MS", 19, 700, true, false, "FRETTA_MEDIUM_SHADOW", true )
-surface.CreateFont( "Trebuchet MS", 16, 700, true, false, "FRETTA_SMALL" )
-
-surface.CreateFont( "Trebuchet MS", ScreenScale( 10 ), 700, true, false, "FRETTA_NOTIFY", true )
-
-CreateClientConVar( "cl_spec_mode", "5", true, true )
-
-function GM:Initialize()
+killicon.Add( "paint_ball", "oddball/capicon", color_white )
 	
-	self.BaseClass:Initialize()
+usermessage.Hook( "PlayerCappedOddball", function( msg )
+
+	local ply = msg:ReadEntity()
 	
-end
+	if ( !IsValid( g_DeathNotify ) ) then return end
 
-function GM:InitPostEntity()
-
-	if ( GAMEMODE.TeamBased ) then 
-		GAMEMODE:ShowTeam();
-	end
+	local pnl = vgui.Create( "GameNotice", g_DeathNotify )
 	
-	GAMEMODE:ShowSplash();
-
-end
-
-local CircleMat = Material( "SGM/playercircle" );
-
-function GM:DrawPlayerRing( pPlayer )
-
-	if ( !IsValid( pPlayer ) ) then return end
-	if ( !pPlayer:GetNWBool( "DrawRing", false ) ) then return end
-	if ( !pPlayer:Alive() ) then return end
+	pnl:AddText( ply )
+	pnl:AddText( "captured" )
+	pnl:AddIcon( "oddballcap" )
 	
-	local trace = {}
-	trace.start 	= pPlayer:GetPos() + Vector(0,0,50)
-	trace.endpos 	= trace.start + Vector(0,0,-300)
-	trace.filter 	= pPlayer
+	g_DeathNotify:AddItem( pnl )
 	
-	local tr = util.TraceLine( trace )
+end )
 	
-	if not tr.HitWorld then
-		tr.HitPos = pPlayer:GetPos()
+usermessage.Hook( "OddballReset", function( msg )
+
+	if ( !IsValid( g_DeathNotify ) ) then return end
+
+	local pnl = vgui.Create( "GameNotice", g_DeathNotify )
+	
+	pnl:AddIcon( "oddballcap" )
+	pnl:AddText( "has been reset!" )
+	
+	g_DeathNotify:AddItem( pnl )
+	
+end )
+
+function GM:GetMotionBlurValues( x, y, fwd, spin ) //fwd is cone
+
+	if LocalPlayer():GetFOV() < 75 then
+		fwd = 0.05
 	end
 
-	local color = table.Copy( team.GetColor( pPlayer:Team() ) )
-	color.a = 40;
-
-	render.SetMaterial( CircleMat )
-	render.DrawQuadEasy( tr.HitPos + tr.HitNormal, tr.HitNormal, GAMEMODE.PlayerRingSize, GAMEMODE.PlayerRingSize, color )	
+	return x, y, fwd, spin
 
 end
 
-hook.Add( "PrePlayerDraw", "DrawPlayerRing", function( ply ) GAMEMODE:DrawPlayerRing( ply ) end ) 
+local WalkTimer = 0
+local VelSmooth = 0
+local ViewWobble = 0
 
-function GM:HUDShouldDraw( name )
+function GM:CalcView( ply, origin, angle, fov )
 
-	if GAMEMODE.ScoreboardVisible then return false end
-	
-	// commented out until HUD elements are made
-	//for k, v in pairs{"CHudHealth", "CHudBattery", "CHudAmmo", "CHudSecondaryAmmo"} do
-	//	if name == v then return false end 
-  	//end 
-	
-	if name == "CHudDamageIndicator" and not LocalPlayer():Alive() then
-		return false
-	end
-	
-	return true
-	
-end
+	if ply:Alive() and ply:IsOnGround() then
 
-function GM:OnSpawnMenuOpen()
-	RunConsoleCommand( "lastinv" ); // Fretta is derived from base and has no spawn menu, so give it a use, make it lastinv.
-end
-
-
-function GM:PlayerBindPress( pl, bind, down )
-
-	// Redirect binds to the spectate system
-	if ( pl:IsObserver() && down ) then
-	
-		if ( bind == "+jump" ) then 	RunConsoleCommand( "spec_mode" )	end
-		if ( bind == "+attack" ) then	RunConsoleCommand( "spec_next" )	end
-		if ( bind == "+attack2" ) then	RunConsoleCommand( "spec_prev" )	end
+		local vel = ply:GetVelocity()
+		local ang = ply:EyeAngles()
 		
-	end
-	
-	return false	
-	
-end
-
-/*---------------------------------------------------------
-   Name: gamemode:GetTeamColor( ent )
----------------------------------------------------------*/
-function GM:GetTeamColor( ent )
-
-	if ( GAMEMODE.SelectColor && IsValid( ent ) ) then
-	
-		local clr = ent:GetNWString( "NameColor", -1 )
-		if ( clr && clr != -1 && clr != "" ) then
-			clr = list.Get( "PlayerColours" )[ clr ]
-			if ( clr ) then return clr end
-		end
-	
-	end
-
-	local team = TEAM_UNASSIGNED
-	if (ent.Team) then team = ent:Team() end
-	return GAMEMODE:GetTeamNumColor( team )
-
-end
-
-
-/*---------------------------------------------------------
-   Name: ShouldDrawLocalPlayer
----------------------------------------------------------*/
-function GM:ShouldDrawLocalPlayer( ply )
-	return ply:CallClassFunction( "ShouldDrawLocalPlayer" )
-end
-
-
-/*---------------------------------------------------------
-   Name: InputMouseApply
----------------------------------------------------------*/
-function GM:InputMouseApply( cmd, x, y, angle )
-	
-	return LocalPlayer():CallClassFunction( "InputMouseApply", cmd, x, y, angle )
-	
-end
-
-function GM:TeamChangeNotification( ply, oldteam, newteam )
-
-	if( ply && ply:IsValid() ) then
-		local nick = ply:Nick();
-		local oldTeamColor = team.GetColor( oldteam );
-		local newTeamName = team.GetName( newteam );
-		local newTeamColor = team.GetColor( newteam );
+		VelSmooth = VelSmooth * 0.5 + vel:Length() * 0.45
+		WalkTimer = WalkTimer + VelSmooth * FrameTime() * 0.1
 		
-		if( newteam == TEAM_SPECTATOR ) then
-			chat.AddText( oldTeamColor, nick, color_white, " joined the ", newTeamColor, newTeamName ); 
-		else
-			chat.AddText( oldTeamColor, nick, color_white, " joined ", newTeamColor, newTeamName );
+		angle.roll = angle.roll + ang:Right():DotProduct( vel ) * 0.01
+		
+		if ViewWobble > 0 then
+			angle.roll = angle.roll + math.sin( CurTime() * 2.5 ) * (ViewWobble * 15)
+			ViewWobble = ViewWobble - 0.1 * FrameTime()
 		end
 		
-		chat.PlaySound( "buttons/button15.wav" );
+		angle.roll = angle.roll + math.sin( WalkTimer * 0.75 ) * VelSmooth * 0.001
+		angle.pitch = angle.pitch + math.sin( WalkTimer * 0.3 ) * VelSmooth * 0.001
 	end
+	
+	return self.BaseClass:CalcView( ply, origin, angle, fov )
+	
 end
-usermessage.Hook( "fretta_teamchange", function( um )  if( GAMEMODE && um ) then  GAMEMODE:TeamChangeNotification( um:ReadEntity(), um:ReadShort(), um:ReadShort() ) end end )
+
+function GM:Think()
+	self.BaseClass:Think()
+end
+
+local MaterialBlurX = Material( "pp/blurx" )
+local MaterialBlurY = Material( "pp/blury" )
+local MaterialWhite = CreateMaterial( "WhiteMaterial", "VertexLitGeneric", {
+	["$basetexture"] = "color/white",
+	["$vertexalpha"] = "1",
+	["$model"] = "1",
+} )
+local MaterialComposite = CreateMaterial( "CompositeMaterial", "UnlitGeneric", {
+	["$basetexture"] = "_rt_FullFrameFB",
+	["$additive"] = "1",
+} )
+
+// we need two render targets, if you don't want to create them yourself, you can
+local RT1 = render.GetBloomTex0()
+local RT2 = render.GetBloomTex1()
+
+/*------------------------------------
+	RenderGlow()
+------------------------------------*/
+
+local meta = FindMetaTable( "Entity" )
+if !meta then return end
+
+function meta:RenderGlow( color )
+
+	color = color or color_white
+
+	// tell the stencil buffer we're going to write a value of one wherever the model
+	// is rendered
+	render.SetStencilEnable( true )
+	render.SetStencilFailOperation( STENCILOPERATION_KEEP )
+	render.SetStencilZFailOperation( STENCILOPERATION_KEEP )
+	render.SetStencilPassOperation( STENCILOPERATION_REPLACE )
+	render.SetStencilCompareFunction( STENCILCOMPARISONFUNCTION_ALWAYS )
+	render.SetStencilWriteMask( 1 )
+	render.SetStencilReferenceValue( 1 )
+	
+	// this uses a small hack to render ignoring depth while not drawing color
+	// i couldn't find a function in the engine to disable writing to the color channels
+	// i did find one for shaders though, but I don't feel like writing a shader for this.
+	cam.IgnoreZ( true )
+		render.SetBlend( 0 )
+		
+			SetMaterialOverride( MaterialWhite )
+				self:DrawModel()
+			SetMaterialOverride()
+			
+		render.SetBlend( 1 )
+	cam.IgnoreZ( false )
+	
+	local w, h = ScrW(), ScrH()
+	
+	// draw into the white texture
+	local oldRT = render.GetRenderTarget()
+	
+	render.SetRenderTarget( RT1 )
+	
+		render.SetViewPort( 0, 0, RT1:GetActualWidth(), RT1:GetActualHeight() )
+		
+		cam.IgnoreZ( true )
+		
+			render.SuppressEngineLighting( true )
+			
+				render.SetColorModulation( color.r / 255, color.g / 255, color.b / 255 )
+			
+				SetMaterialOverride( MaterialWhite )
+					self:DrawModel()
+				SetMaterialOverride()
+				
+			render.SetColorModulation( 1, 1, 1 )
+			render.SuppressEngineLighting( false )
+			
+		cam.IgnoreZ( false )
+		
+		render.SetViewPort( 0, 0, w, h )
+	render.SetRenderTarget( oldRT )
+	
+	// don't need this for the next pass
+	render.SetStencilEnable( false )
+
+end
+
+/*------------------------------------
+	RenderScene()
+------------------------------------*/
+hook.Add( "RenderScene", "ResetGlow", function( Origin, Angles )
+
+	local oldRT = render.GetRenderTarget()
+	render.SetRenderTarget( RT1 )
+		render.Clear( 0, 0, 0, 255, true )
+	render.SetRenderTarget( oldRT )
+	
+end )
+
+/*------------------------------------
+	RenderScreenspaceEffects()
+------------------------------------*/
+hook.Add( "RenderScreenspaceEffects", "CompositeGlow", function()
+
+	MaterialBlurX:SetMaterialTexture( "$basetexture", RT1 )
+	MaterialBlurY:SetMaterialTexture( "$basetexture", RT2 )
+	MaterialBlurX:SetMaterialFloat( "$size", 2 )
+	MaterialBlurY:SetMaterialFloat( "$size", 2 )
+		
+	local oldRT = render.GetRenderTarget()
+	
+	for i = 1, 3 do
+		// blur horizontally
+		render.SetRenderTarget( RT2 )
+		render.SetMaterial( MaterialBlurX )
+		render.DrawScreenQuad()
+
+		// blur vertically
+		render.SetRenderTarget( RT1 )
+		render.SetMaterial( MaterialBlurY )
+		render.DrawScreenQuad()
+	end
+	
+	render.SetRenderTarget( oldRT )
+	
+	// tell the stencil buffer we're only going to draw
+	// where the player models are not.
+	render.SetStencilEnable( true )
+	render.SetStencilReferenceValue( 0 )
+	render.SetStencilTestMask( 1 )
+	render.SetStencilCompareFunction( STENCILCOMPARISONFUNCTION_EQUAL )
+	render.SetStencilPassOperation( STENCILOPERATION_ZERO )
+	
+	// composite the scene
+	MaterialComposite:SetMaterialTexture( "$basetexture", RT1 )
+	render.SetMaterial( MaterialComposite )
+	render.DrawScreenQuad()
+
+	// don't need this anymore
+	render.SetStencilEnable( false )
+	
+end )

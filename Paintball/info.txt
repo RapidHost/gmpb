@@ -1,12 +1,24 @@
 "Gamemode"
 {
-	"name"		"Paintball"
-	"version"	"1.8"
+	"name"		"PaintBall"
+	"version"	"1.0"
 
-	"author_name"	"GMPB Team"
+	"author_name"	""
 	"author_email"	""
 	"author_url"	""
 	
+	"mappattern"
+	{
+		"1"	"^gmpb_"
+	}
+	
+	"fretta_maps"
+	{
+		"1"	"^gmpb_"
+	}
+	
+	"selectable"	"1"
+
 	"icon"		""
 	"info"		""
 	"hide"		"0"

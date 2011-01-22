@@ -1,46 +1,31 @@
-AddCSLuaFile("cl_init.lua")
-AddCSLuaFile("shared.lua")
-include('shared.lua')
+AddCSLuaFile( "cl_init.lua" )
+AddCSLuaFile( "shared.lua" )
+include( "shared.lua" )
 
-ENT.Team = TEAM_BLUE
-ENT.Game = nil
-ENT.Flag = nil
-ENT.FlagHere = true
+AccessorFunc( ENT, "Team", "TeamID" )
 
 function ENT:Initialize()
-	self.Entity:SetModel("models/props_trainstation/trainstation_post001.mdl")
-	self.Entity:PhysicsInit(SOLID_VPHYSICS)
-	self.Entity:SetMoveType(MOVETYPE_NONE) -- base should move approximately never.
-	self.Entity:SetSolid(SOLID_BBOX)
-	self.Entity:SetCollisionBounds(Vector(-24,-24,0),Vector(24,24,48))
-	self.Entity:SetCollisionGroup(COLLISION_GROUP_WEAPON) -- it's solid but it doesn't block players
-	self.Entity:SetTrigger(true) -- ...but it does detect them
-	
-	-- no shadow, and don't collide with players
-	self.Entity:DrawShadow(false)
-	self.FlagHere = true
+	self:SetModel( "models/props_trainstation/trainstation_post001.mdl" )
+	self:PhysicsInit( SOLID_VPHYSICS )
+	self:SetMoveType( MOVETYPE_NONE )
+	self:SetSolid( SOLID_VPHYSICS )
+	self:SetCollisionGroup( COLLISION_GROUP_WORLD )
+	self:SetTrigger( true )
 end
 
-function ENT:Setupify(tm,flg)
-	self.Flag = flg
-	self.Team = tm
+function ENT:SetUp( teamid )
+	self:SetTeam( teamid )
+	local Flag = ents.Create( "flag" )
+	Flag:SetMoveType( MOVETYPE_NONE )
+	Flag:SetSolid( SOLID_NONE )
+	Flag:SetTrigger( true )
+	Flag:SetPos( self:GetPos() + Vector( 0, 0, 64 ) )
+	Flag:SetUp( teamid, self )
+	Flag:Spawn()
 end
 
-function ENT:Touch(other)
-	if ValidEntity(other) and other:IsPlayer() && self.FlagHere then
-		if other:Team() != self.Team then
-			GAMEMODE:FlagTaken(self.Team,other)
-			self.Flag:Taken(other)
-		elseif other.hasflag then
-			GAMEMODE:FlagCapped(self.Team,other)
-		end
+function ENT:StartTouch( ent )
+	if ent:IsPlayer() and ent:HasFlag() and ent:Team() == self:GetTeam() then
+		self:PlayerCapture( ent )
 	end
-end
-
-function ENT:FlagTaken()
-	self.FlagHere = false
-end
-
-function ENT:FlagReturned()
-	self.FlagHere = true
 end

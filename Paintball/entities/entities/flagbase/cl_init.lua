@@ -1,5 +1,7 @@
-include('shared.lua')
+function ENT:Initialize()
+end
 
-function ENT:Draw()
-	self.Entity:DrawModel()
+function ENT:Draw()		
+	self:DrawModel()
+	self:RenderGlow()
 end

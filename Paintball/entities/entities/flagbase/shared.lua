@@ -1,7 +1,12 @@
-ENT.Type 			= "anim"
-ENT.Base 			= "base_anim"
-ENT.PrintName		= "GMPB Flag Base"
-ENT.Author			= "Panda X & TheDueceBox"
+ENT.Type 				= "anim"
+ENT.Base 				= "base_anim"
+ENT.PrintName			= "Paint Ball"
+ENT.Author				= "BlackOps7799"
+ENT.Spawnable			= false
+ENT.AdminSpawnable		= false
 
-ENT.Spawnable			= true
-ENT.AdminSpawnable		= true
+ENT.PBHitSound = Sound( "paintball/pbhit.wav" )
+
+function ENT:OnRemove() -- Predicted and whatnot
+	self:EmitSound( self.PBHitSound, 100, math.random( 90, 110 ) )
+end
