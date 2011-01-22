@@ -84,11 +84,7 @@ function GM:RoundEnd( t )
 end
 
 function GM:RoundTimerEnd()
-
-	if ( !GAMEMODE:InRound() ) then return end
-	
-	UTIL_FreezeAllPlayers()
-
+	self.BaseClass:RoundTimerEnd()
 end
 
 function GM:OnPlayerTagged( ply, paintball, attacker )

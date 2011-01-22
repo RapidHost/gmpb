@@ -2,7 +2,7 @@ AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
 include( "shared.lua" )
 
-AccessorFunc( ENT, "Team", "TeamID" )
+AccessorFunc( ENT, "TeamID", "Team" )
 AccessorFunc( ENT, "FlagBase", "FlagBase" )
 
 function ENT:Initialize()

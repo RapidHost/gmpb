@@ -2,7 +2,7 @@ AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
 include( "shared.lua" )
 
-AccessorFunc( ENT, "Team", "TeamID" )
+AccessorFunc( ENT, "TeamID", "Team" )
 
 function ENT:Initialize()
 	self:SetModel( "models/props_trainstation/trainstation_post001.mdl" )
