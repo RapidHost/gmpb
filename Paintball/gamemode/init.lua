@@ -40,13 +40,13 @@ function GM:SetUpFlags()
 		if ent:GetName() == "redflag" then
 			local FlagBase = ents.Create( "flagbase" )
 			FlagBase:SetPos( ent:GetPos() + Vector( 0, 0, -12 ) )
-			FlagBase:Spawn()
 			FlagBase:SetUp( TEAM_RED )
+			FlagBase:Spawn()
 		elseif ent:GetName() == "blueflag" then
 			local FlagBase = ents.Create( "flagbase" )
 			FlagBase:SetPos( ent:GetPos() + Vector( 0, 0, -12 ) )
-			FlagBase:Spawn()
 			FlagBase:SetUp( TEAM_BLUE )
+			FlagBase:Spawn()
 		end
 	end
 end
