@@ -3,7 +3,6 @@ include( "shared.lua" )
 function ENT:Initialize()
 end
 
-function ENT:Draw()		
+function ENT:Draw()
 	self:DrawModel()
-	self:RenderGlow()
 end
