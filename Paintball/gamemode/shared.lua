@@ -1,12 +1,12 @@
-GM.Name 	= "OddBall"
-GM.Author 	= "BlackOps7799"
-GM.Email 	= "blackops7799@gmail.com"
+GM.Name 	= "PaintBall"
+GM.Author 	= ""
+GM.Email 	= ""
 GM.Website 	= ""
 
-DeriveGamemode( "frettav2" )
+DeriveGamemode( "fretta" )
 IncludePlayerClasses()
 
-GM.Help		= "Help your team capture the OddBall for the longest amount of time!"
+GM.Help		= "Play some paintball"
 GM.TeamBased = true
 GM.AllowAutoTeam = true
 GM.AllowSpectating = true
@@ -14,26 +14,26 @@ GM.SecondsBetweenTeamSwitches = 5
 GM.SelectClass = false
 GM.GameLength = 30
 
-GM.NoPlayerSuicide = false
-GM.NoPlayerDamage = false
-GM.NoPlayerSelfDamage = false		
+GM.NoPlayerSuicide = true
+GM.NoPlayerDamage = true
+GM.NoPlayerSelfDamage = true		
 GM.NoPlayerTeamDamage = true		
-GM.NoPlayerPlayerDamage = false 	
+GM.NoPlayerPlayerDamage = true 	
 GM.NoNonPlayerPlayerDamage = false 	
 
 GM.EnableFreezeCam = false				// TF2 Style Freezecam
 GM.DeathLingerTime = 5					// The time between you dying and it going into spectator mode, 0 disables
 
-GM.MaximumDeathLength = 10				// Player will repspawn if death length > this (can be 0 to disable)
-GM.MinimumDeathLength = 10				// Player has to be dead for at least this long
+GM.MaximumDeathLength = 5				// Player will repspawn if death length > this (can be 0 to disable)
+GM.MinimumDeathLength = 5				// Player has to be dead for at least this long
 GM.AutomaticTeamBalance = true     		// Teams will be periodically balanced 
 GM.ForceJoinBalancedTeams = true		// Players won't be allowed to join a team if it has more players than another team
 GM.RealisticFallDamage = true			// Break their fucking legs
 
-GM.NoAutomaticSpawning = false			// Players don't spawn automatically when they die, some other system spawns them
+GM.NoAutomaticSpawning = true			// Players don't spawn automatically when they die, some other system spawns them
 GM.RoundBased = true					// Round based, like CS
-GM.RoundLength = 360					// Round length, in seconds
-GM.RoundEndsWhenOneTeamAlive = false	// CS Style rules
+GM.RoundLength = 120					// Round length, in seconds
+GM.RoundEndsWhenOneTeamAlive = true 	// CS Style rules
 
 GM.SpectateAllPlayers = true			// When true, when a player is assigned to a team, it allows them to spec any player
 

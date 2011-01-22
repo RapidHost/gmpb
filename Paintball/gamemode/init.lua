@@ -1,9 +1,11 @@
 AddCSLuaFile( "cl_hud.lua" )
 AddCSLuaFile( "shared.lua" )
 AddCSLuaFile( "cl_init.lua" )
+AddCSLuaFile( "player_extension.lua" )
 
 include( "shared.lua" )
 include( "downloads.lua" )
+include( "player_extension.lua" )
 
 function GM:InitPostEntity()
 	self.BaseClass:InitPostEntity()
@@ -19,7 +21,7 @@ end
 
 hook.Add( "SetupPlayerVisibility", "AddFlagToVis", function( ply, viewent )
 	for k,v in ipairs( ents.GetAll() ) do
-		if ( v:IsPlayer() and v:HasFlag() ) or v:GetClass() == "flag" then
+		if v:GetClass() == "flag" then
 			AddOriginToPVS( v:GetPos() )
 		end
 	end
@@ -34,6 +36,7 @@ function GM:PlayGameSound( snd )
 end
 
 function GM:OnPreRoundStart( num )
+	
 	for k,v in pairs( player.GetAll() ) do --Each round we start fresh.
 		v:SetFrags( 0 )
 		v:SetDeaths( 0 )
@@ -78,6 +81,7 @@ function GM:OnPlayerTagged( ply, paintball, attacker )
 			ply:Spectate( OBS_MODE_FREEZECAM )
 		end
 	end )
+	ply:Kill() -- Temp.
 end
 
 function GM:OnPlayerFlagTake( ply, flag )

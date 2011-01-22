@@ -45,6 +45,7 @@ function ENT:PlayerCapture( ply )
 end
 
 function ENT:PlayerTake( ply )
+	ply:SetFlag( self )
 	self:SetOwner( ply )
 	self:SetParent( ply )
 	self:SetModel( "models/roller_spikes.mdl" )
@@ -59,6 +60,7 @@ function ENT:PlayerTake( ply )
 end
 
 function ENT:PlayerDropped( ply )
+	ply:SetFlag()
 	self:SetMoveType( MOVETYPE_VPHYSICS )
 	self:SetSolid( SOLID_BBOX )
 	self:SetCollisionGroup( COLLISION_GROUP_WEAPON )
