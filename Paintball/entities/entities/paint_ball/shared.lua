@@ -5,6 +5,8 @@ ENT.Author				= "BlackOps7799"
 ENT.Spawnable			= false
 ENT.AdminSpawnable		= false
 
+ENT.RenderGroup 		= RENDERGROUP_BOTH
+
 ENT.PBHitSound = Sound( "paintball/pbhit.wav" )
 
 function ENT:OnRemove() -- Predicted and whatnot
