@@ -70,7 +70,7 @@ function SWEP:FirePaintBall()
 		
 		if SERVER then
 		
-			local PB = ents.Create( "paintball_toybox_ent" )
+			local PB = ents.Create( "paint_ball" )
 			
 			local ShotPos = self.Owner:GetShootPos()
 			local AimVec = self.Owner:GetAimVector()

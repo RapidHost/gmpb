@@ -29,3 +29,13 @@ function ENT:StartTouch( ent )
 		self:PlayerCapture( ent )
 	end
 end
+
+function ENT:KeyValue( key, value )
+	if !self.KeyValues then
+		self.KeyValues = {}
+	end
+	self.KeyValues[ key ] = value
+	if key == "teamid" then
+		self:SetUp( tonumber( value ) )
+	end
+end

@@ -35,6 +35,22 @@ function GM:PlayGameSound( snd )
 	BroadcastLua( string.format( "surface.PlaySound(\"%s\")", snd ) )
 end
 
+function GM:SetUpFlags()
+	for _,ent in pairs( ents.FindByClass("info_target") ) do
+		if ent:GetName() == "redflag" then
+			local FlagBase = ents.Create( "flagbase" )
+			FlagBase:SetPos( ent:GetPos() + Vector( 0, 0, -12 ) )
+			FlagBase:Spawn()
+			FlagBase:SetUp( TEAM_RED )
+		elseif ent:GetName() == "blueflag" then
+			local FlagBase = ents.Create( "flagbase" )
+			FlagBase:SetPos( ent:GetPos() + Vector( 0, 0, -12 ) )
+			FlagBase:Spawn()
+			FlagBase:SetUp( TEAM_BLUE )
+		end
+	end
+end
+
 function GM:OnPreRoundStart( num )
 	
 	for k,v in pairs( player.GetAll() ) do --Each round we start fresh.
@@ -43,6 +59,8 @@ function GM:OnPreRoundStart( num )
 	end
 	
 	self.BaseClass:OnPreRoundStart( num )
+	
+	self:SetUpFlags()
 	
 	UTIL_SpawnAllPlayers()
 	UTIL_FreezeAllPlayers()
