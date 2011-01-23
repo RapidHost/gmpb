@@ -14,8 +14,8 @@ GM.SecondsBetweenTeamSwitches = 5
 GM.SelectClass = false
 GM.GameLength = 30
 
-GM.NoPlayerSuicide = true
-GM.NoPlayerDamage = true
+GM.NoPlayerSuicide = false
+GM.NoPlayerDamage = false
 GM.NoPlayerSelfDamage = true		
 GM.NoPlayerTeamDamage = true		
 GM.NoPlayerPlayerDamage = true 	

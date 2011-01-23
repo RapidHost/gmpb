@@ -7,6 +7,16 @@ include( "shared.lua" )
 include( "downloads.lua" )
 include( "player_extension.lua" )
 
+GM.Settings = {
+	StartMoney = 500,
+	MaxMoney = 10000,
+	PointsPerFlagCap = 2,
+}
+
+function GM:GetSetting( setting )
+	return self.Settings[ setting ]
+end
+
 function GM:InitPostEntity()
 	self.BaseClass:InitPostEntity()
 end
@@ -86,6 +96,7 @@ function GM:PlayerSetModel( ply )
 end
 
 function GM:PlayerDisconnected( ply )
+	ply:DropFlag()
 end
 
 function GM:RoundEnd( t )
@@ -99,7 +110,7 @@ end
 function GM:OnPlayerTagged( ply, paintball, attacker )
 	timer.Simple( 2, function()
 		if IsValid( ply ) and IsValid( attacker )and  ply:IsPlayer() and attacker:IsPlayer() and ply != attacker then
-			ply:ConCommand( "playgamesound misc/freeze_cam.wav" )
+			ply:PlayGameSound( "playgamesound misc/freeze_cam.wav" )
 			ply:SpectateEntity( attacker )
 			ply:Spectate( OBS_MODE_FREEZECAM )
 		end
@@ -108,23 +119,24 @@ function GM:OnPlayerTagged( ply, paintball, attacker )
 end
 
 function GM:OnPlayerFlagTake( ply, flag )
-
+	self:PlayGameSound( "ambient/alarms/klaxon1.wav" )
 end
 
 function GM:OnPlayerFlagCapture( ply, flag )
-
+	
 end
 
 function GM:OnPlayerFlagReturned( ply, flag )
-
+	self:PlayGameSound( "hl1/fvox/bell.wav" )
 end
 
 function GM:OnPlayerFlagDropped( ply, flag )
-
+	self:PlayGameSound( "npc/roller/code2.wav" )
 end
 
 function GM:PlayerDeath( ply, inflictor, attacker )
 	self.BaseClass:PlayerDeath( ply, inflictor, attacker )
+	ply:DropFlag()
 end
 
 function GM:PlayerDeathSound()
