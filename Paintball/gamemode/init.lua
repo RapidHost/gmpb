@@ -92,6 +92,12 @@ function GM:OnPreRoundStart( num )
 	
 	game.CleanUpMap( false, { "flag", "flagbase", } )
 	
+	for k,v in pairs( ents.FindByClass( "flag" ) ) do
+		if v.Return then
+			v:Return()
+		end
+	end
+	
 	UTIL_StripAllPlayers()
 	UTIL_SpawnAllPlayers()
 	UTIL_FreezeAllPlayers()
