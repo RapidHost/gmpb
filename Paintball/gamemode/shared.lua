@@ -65,11 +65,11 @@ function GM:CreateTeams()
 
 	if ( !GAMEMODE.TeamBased ) then return end
 	
-	team.SetUp( TEAM_RED, "Red Team", Color( 255, 80, 80 ), true )
+	team.SetUp( TEAM_RED, "Red Team", Color( 237, 28, 36 ), true )
 	team.SetSpawnPoint( TEAM_RED, {"info_player_terrorist", } )
 	team.SetClass( TEAM_RED, { "Default" } )
 	
-	team.SetUp( TEAM_BLUE, "Blue Team", Color( 80, 80, 255 ), true )
+	team.SetUp( TEAM_BLUE, "Blue Team", Color( 112, 160, 255 ), true )
 	team.SetSpawnPoint( TEAM_BLUE, { "info_player_counterterrorist", } )
 	team.SetClass( TEAM_BLUE, { "Default" } )
 	

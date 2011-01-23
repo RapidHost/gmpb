@@ -11,12 +11,13 @@ GlowingMat:SetMaterialFloat( "$bluramount", 0.5 )
 GlowingMat:SetMaterialFloat( "$refractamount", 0.05 )
 
 function ENT:Initialize()
-	self.EffectModel = ents.Create( "prop_physics" ) --ClientsideModel( "models/props_combine/breentp_rings.mdl", RENDERGROUP_BOTH )
+	self.EffectModel = ClientsideModel( "models/props_combine/breentp_rings.mdl", RENDERGROUP_BOTH ) -- ents.Create( "prop_physics" )
 	self.EffectModel:SetModel( "models/props_combine/breentp_rings.mdl" )
 	self.EffectModel:Spawn()
 	self.EffectModel:SetModelScale( Vector( 0.5, 0.5, 0.5 ) )
 	local r,g,b,a = self:GetColor()
 	self.EffectModel:SetColor( r, g, b, a )
+	self.EffectModel:SetPos( self:GetPos() + vector_up * 55 )
 end
 
 function ENT:Draw()
