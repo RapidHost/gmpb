@@ -87,9 +87,8 @@ local MaterialComposite = CreateMaterial( "CompositeMaterial", "UnlitGeneric", {
 	["$additive"] = "1",
 } )
 
-// we need two render targets, if you don't want to create them yourself, you can
-local RT1 = render.GetBloomTex0()
-local RT2 = render.GetBloomTex1()
+local RT1 = GetRenderTarget( "L4D1", 512, 512, true )  --render.GetBloomTex0() render.GetSuperFPTex()
+local RT2 = GetRenderTarget( "L4D2", 512, 512, true )  --render.GetBloomTex1() render.GetSuperFPTex2()
 
 /*------------------------------------
 	RenderGlow()
@@ -106,7 +105,7 @@ function meta:RenderGlow( color )
 	// is rendered
 	render.SetStencilEnable( true )
 	render.SetStencilFailOperation( STENCILOPERATION_KEEP )
-	render.SetStencilZFailOperation( STENCILOPERATION_KEEP )
+	render.SetStencilZFailOperation( STENCILOPERATION_REPLACE )
 	render.SetStencilPassOperation( STENCILOPERATION_REPLACE )
 	render.SetStencilCompareFunction( STENCILCOMPARISONFUNCTION_ALWAYS )
 	render.SetStencilWriteMask( 1 )
@@ -117,11 +116,9 @@ function meta:RenderGlow( color )
 	// i did find one for shaders though, but I don't feel like writing a shader for this.
 	cam.IgnoreZ( true )
 		render.SetBlend( 0 )
-		
 			SetMaterialOverride( MaterialWhite )
 				self:DrawModel()
 			SetMaterialOverride()
-			
 		render.SetBlend( 1 )
 	cam.IgnoreZ( false )
 	
@@ -137,8 +134,8 @@ function meta:RenderGlow( color )
 		cam.IgnoreZ( true )
 		
 			render.SuppressEngineLighting( true )
-			
-				render.SetColorModulation( color.r / 255, color.g / 255, color.b / 255 )
+
+			render.SetColorModulation( color.r/255, color.g/255, color.b/255 )
 			
 				SetMaterialOverride( MaterialWhite )
 					self:DrawModel()
@@ -181,7 +178,8 @@ hook.Add( "RenderScreenspaceEffects", "CompositeGlow", function()
 		
 	local oldRT = render.GetRenderTarget()
 	
-	for i = 1, 3 do
+	for i = 1, 4 do
+	
 		// blur horizontally
 		render.SetRenderTarget( RT2 )
 		render.SetMaterial( MaterialBlurX )
@@ -191,8 +189,9 @@ hook.Add( "RenderScreenspaceEffects", "CompositeGlow", function()
 		render.SetRenderTarget( RT1 )
 		render.SetMaterial( MaterialBlurY )
 		render.DrawScreenQuad()
+		
 	end
-	
+
 	render.SetRenderTarget( oldRT )
 	
 	// tell the stencil buffer we're only going to draw

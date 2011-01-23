@@ -35,16 +35,25 @@ function GM:PlayGameSound( snd )
 	BroadcastLua( string.format( "surface.PlaySound(\"%s\")", snd ) )
 end
 
+local function GetGroundPos( ent )
+	local tracedata = {
+		start = ent:GetPos() + vector_up * 64,
+		endpos = ent:GetPos() + vector_up * -512,
+		filter = ent,
+	}
+	return util.TraceLine( tracedata ).HitPos
+end
+
 function GM:SetUpFlags()
 	for _,ent in pairs( ents.FindByClass("info_target") ) do
 		if ent:GetName() == "redflag" then
 			local FlagBase = ents.Create( "flagbase" )
-			FlagBase:SetPos( ent:GetPos() + Vector( 0, 0, -12 ) )
+			FlagBase:SetPos( GetGroundPos( ent ) )
 			FlagBase:SetUp( TEAM_RED )
 			FlagBase:Spawn()
 		elseif ent:GetName() == "blueflag" then
 			local FlagBase = ents.Create( "flagbase" )
-			FlagBase:SetPos( ent:GetPos() + Vector( 0, 0, -12 ) )
+			FlagBase:SetPos( GetGroundPos( ent ) )
 			FlagBase:SetUp( TEAM_BLUE )
 			FlagBase:Spawn()
 		end

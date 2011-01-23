@@ -11,8 +11,9 @@ function ENT:Draw()
 	local clr = Color( r,g,b,a )
 	render.SetMaterial( glowMat )
 	render.DrawSprite( self:GetPos(), 56, 56, clr )
-	
-	self:DrawModel()
-	self:RenderGlow( clr )
+	cam.Start3D( EyePos(), EyeAngles() )
+		self:RenderGlow( clr )
+	cam.End3D()
+	self:DrawModel()	
 	
 end

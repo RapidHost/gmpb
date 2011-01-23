@@ -23,7 +23,7 @@ function ENT:SetUp( teamid, base )
 	if teamid == TEAM_BLUE then
 		self:SetColor( 112, 160, 255, 255 )
 	else
-		self:SetColor( 255, 96, 56, 255 )
+		self:SetColor( 237, 28, 36, 255 )
 	end
 end
 
@@ -35,7 +35,7 @@ function ENT:Return( ply, shouldcall )
 	self:SetCollisionGroup( COLLISION_GROUP_WORLD )
 	self:SetTrigger( true )
 	self:SetModel( "models/roller.mdl" )
-	self:SetPos( self:GetFlagBase():GetPos() + Vector( 0, 0, 64 ) )
+	self:SetPos( self:GetFlagBase():GetPos() + Vector( 0, 0, 55 ) )
 	if shouldcall then
 		hook.Call( "OnPlayerFlagReturned", GAMEMODE, ply, self )
 	end
