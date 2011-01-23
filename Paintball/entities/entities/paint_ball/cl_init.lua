@@ -1,3 +1,5 @@
+include("shared.lua")
+
 ENT.PaintBallMat = Material( "paintball/sprites/ball" )
 	
 ENT.Colors = {

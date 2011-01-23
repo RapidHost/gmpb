@@ -1,14 +1,3 @@
-if CLIENT then
-	SWEP.Slot = 1
-	SWEP.SlotPos = 1
-	SWEP.DrawAmmo = false
-	SWEP.DrawCrosshair = false
-elseif SERVER then
-	SWEP.Weight = 5
-	SWEP.AutoSwitchTo = true
-	SWEP.AutoSwitchFrom = false
-end
-
 SWEP.FireSound				= Sound( "paintball/pbfire.wav" )
 SWEP.BarrelVelocity			= { 1950, 2150 } -- Min/Max
 SWEP.Spread					= 32
