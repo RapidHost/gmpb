@@ -88,12 +88,14 @@ function GM:OnPreRoundStart( num )
 		v:SetDeaths( 0 )
 	end
 	
-	self.BaseClass:OnPreRoundStart( num )
+	game.CleanUpMap( false, { "flag", "flagbase", } )
+	
+	UTIL_StripAllPlayers()
+	UTIL_SpawnAllPlayers()
+	UTIL_FreezeAllPlayers()
 	
 	self:SetUpFlags()
 	
-	UTIL_SpawnAllPlayers()
-	UTIL_FreezeAllPlayers()
 end
 
 function GM:OnRoundStart( num )

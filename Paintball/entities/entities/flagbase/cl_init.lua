@@ -23,6 +23,12 @@ function ENT:Initialize()
 	self.EffectModel:SetPos( self:GetPos() + vector_up * 55 )
 end
 
+function ENT:OnRemove()
+	if IsValid( self.EffectModel ) then
+		SafeRemoveEntity( self.EffectModel )
+	end
+end
+
 function ENT:Draw()
 	self:DrawModel()
 	if IsValid( self.EffectModel ) then
