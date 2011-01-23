@@ -30,6 +30,8 @@ function GM:InitPostEntity()
 	settings.MaxCollisionChecksPerTimestep = 250
 
 	physenv.SetPerformanceSettings( settings )
+	
+	self:SetUpFlags()
 end
 
 function GM:PlayerHurt( ply, attacker, healthleft, healthtaken ) 
@@ -93,8 +95,6 @@ function GM:OnPreRoundStart( num )
 	UTIL_StripAllPlayers()
 	UTIL_SpawnAllPlayers()
 	UTIL_FreezeAllPlayers()
-	
-	self:SetUpFlags()
 	
 end
 
