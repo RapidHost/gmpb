@@ -1,5 +1,5 @@
-GM.Name 	= "PaintBall"
-GM.Author 	= ""
+GM.Name 	= "Paintball"
+GM.Author 	= "The Deuce Box, Panda X, BlackOps, & Sassafrass"
 GM.Email 	= ""
 GM.Website 	= ""
 
@@ -34,6 +34,7 @@ GM.NoAutomaticSpawning = true			// Players don't spawn automatically when they d
 GM.RoundBased = true					// Round based, like CS
 GM.RoundLength = 120					// Round length, in seconds
 GM.RoundEndsWhenOneTeamAlive = true 	// CS Style rules
+GM.RoundLimit = 10
 
 GM.SpectateAllPlayers = true			// When true, when a player is assigned to a team, it allows them to spec any player
 
@@ -62,15 +63,13 @@ function GM:GetRandomTeamModel( teamid )
 end
 
 function GM:CreateTeams()
-
-	if ( !GAMEMODE.TeamBased ) then return end
 	
 	team.SetUp( TEAM_RED, "Red Team", Color( 237, 28, 36 ), true )
-	team.SetSpawnPoint( TEAM_RED, {"info_player_terrorist", } )
+	team.SetSpawnPoint( TEAM_RED, { "info_player_terrorist", "red_team" } )
 	team.SetClass( TEAM_RED, { "Default" } )
 	
 	team.SetUp( TEAM_BLUE, "Blue Team", Color( 112, 160, 255 ), true )
-	team.SetSpawnPoint( TEAM_BLUE, { "info_player_counterterrorist", } )
+	team.SetSpawnPoint( TEAM_BLUE, { "info_player_counterterrorist", "blue_team" } )
 	team.SetClass( TEAM_BLUE, { "Default" } )
 	
 	team.SetUp( TEAM_SPECTATOR, "Spectators", Color( 255, 255, 80 ), true )
