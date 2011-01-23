@@ -1,6 +1,6 @@
 SWEP.FireSound				= Sound( "paintball/pbfire.wav" )
-SWEP.BarrelVelocity			= { 1950, 2150 } -- Min/Max
-SWEP.Spread					= 32
+SWEP.BarrelVelocity			= { 11950, 12150 } -- Min/Max
+SWEP.Spread					= 164
 SWEP.BarrelPos				= Vector( 9, -0.5, 0 )
 SWEP.WalkingTrigger			= true -- Pretty much allow secondary fire to also shoot
 SWEP.FireDelay 				= 0.05
