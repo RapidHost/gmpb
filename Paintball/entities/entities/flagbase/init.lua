@@ -15,6 +15,11 @@ end
 
 function ENT:SetUp( teamid )
 	self:SetTeam( teamid )
+	if teamid == TEAM_BLUE then
+		self:SetColor( 112, 160, 255, 255 )
+	else
+		self:SetColor( 237, 28, 36, 255 )
+	end
 	local Flag = ents.Create( "flag" )
 	Flag:SetMoveType( MOVETYPE_NONE )
 	Flag:SetSolid( SOLID_NONE )
