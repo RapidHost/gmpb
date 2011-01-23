@@ -4,19 +4,20 @@ SWEP.Spread					= 164
 SWEP.BarrelPos				= Vector( 9, -0.5, 0 )
 SWEP.WalkingTrigger			= true -- Pretty much allow secondary fire to also shoot
 SWEP.FireDelay 				= 0.05
+SWEP.Automatic				= false
 
 SWEP.Primary.Recoil			= 0
 SWEP.Primary.ClipSize		= -1
 SWEP.Primary.DefaultClip	= -1
 SWEP.Primary.Delay			= SWEP.FireDelay or 0.1
-SWEP.Primary.Automatic		= false
+SWEP.Primary.Automatic		= SWEP.Automatic or false
 SWEP.Primary.Ammo			= "none"
 
 SWEP.Secondary.Recoil		= 0
 SWEP.Secondary.ClipSize		= -1
 SWEP.Secondary.DefaultClip	= -1
 SWEP.Secondary.Delay		= SWEP.FireDelay or 0.1
-SWEP.Secondary.Automatic	= false
+SWEP.Secondary.Automatic	= SWEP.Automatic or false
 SWEP.Secondary.Ammo			= "none"
 
 SWEP.PrintName 				= "Paintball Gun"

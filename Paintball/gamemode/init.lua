@@ -14,11 +14,22 @@ GM.Settings = {
 }
 
 function GM:GetSetting( setting )
-	return self.Settings[ setting ]
+	return self.Settings[ setting ] or ""
 end
 
 function GM:InitPostEntity()
 	self.BaseClass:InitPostEntity()
+	
+	local settings = physenv.GetPerformanceSettings()
+
+	settings.MaxVelocity = 10000 -- Raised max physics velocity
+	settings.MaxAngularVelocity = 3600
+	settings.MinFrictionMass = 10
+	settings.MaxFrictionMass = 2500
+	settings.MaxCollisionsPerObjectPerTimestep = 10
+	settings.MaxCollisionChecksPerTimestep = 250
+
+	physenv.SetPerformanceSettings( settings )
 end
 
 function GM:PlayerHurt( ply, attacker, healthleft, healthtaken ) 
@@ -110,7 +121,7 @@ end
 function GM:OnPlayerTagged( ply, paintball, attacker )
 	timer.Simple( 2, function()
 		if IsValid( ply ) and IsValid( attacker )and  ply:IsPlayer() and attacker:IsPlayer() and ply != attacker then
-			ply:PlayGameSound( "playgamesound misc/freeze_cam.wav" )
+			ply:PlayGameSound( "misc/freeze_cam.wav" )
 			ply:SpectateEntity( attacker )
 			ply:Spectate( OBS_MODE_FREEZECAM )
 		end
