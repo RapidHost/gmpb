@@ -1,5 +1,6 @@
-include( 'shared.lua' )
-include( 'cl_hud.lua' )
+include( "shared.lua" )
+include( "cl_hud.lua" )
+include( "cl_scoreboard.lua" )
 
 killicon.Add( "paint_ball", "oddball/capicon", color_white )
 	
