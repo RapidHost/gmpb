@@ -88,8 +88,8 @@ local MaterialComposite = CreateMaterial( "CompositeMaterial", "UnlitGeneric", {
 	["$additive"] = "1",
 } )
 
-local RT1 = GetRenderTarget( "L4D1", 512, 512, true )  --render.GetBloomTex0() render.GetSuperFPTex()
-local RT2 = GetRenderTarget( "L4D2", 512, 512, true )  --render.GetBloomTex1() render.GetSuperFPTex2()
+local RT1 = render.GetBloomTex0()
+local RT2 = render.GetBloomTex1()
 
 /*------------------------------------
 	RenderGlow()
