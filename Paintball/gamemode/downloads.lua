@@ -6,8 +6,15 @@ function resource.AddDir(dir)
 	end
 end
 
-resource.AddDir( "materials/paintball/splats" )
+resource.AddDir( "materials/paintball/" )
 resource.AddDir( "materials/paintball/sprites" )
+resource.AddDir( "materials/paintball/splats" )
+resource.AddDir( "materials/paintball/weapons/a51" )
+resource.AddDir( "materials/paintball/weapons/angel" )
+resource.AddDir( "materials/paintball/weapons/blazer" )
+resource.AddDir( "materials/paintball/weapons/bush" )
+resource.AddDir( "materials/paintball/weapons/cocker" )
+resource.AddDir( "materials/paintball/weapons/dm4" )
 resource.AddDir( "sound/paintball" )
 
 resource.AddSingleFile( "materials/models/weapons/blazer.vmt")

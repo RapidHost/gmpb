@@ -1,0 +1,8 @@
+"LightmappedGeneric"
+{
+    "$basetexture" "paintball/splats/splat_p_5"
+    "$decal" 1
+    "$decalscale" 0.10
+    "$modelmaterial" "paintball/splats/modelsplat_p_5"
+    "$translucent" 1
+}

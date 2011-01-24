@@ -1,0 +1,5 @@
+"UnlitGeneric"
+{
+	"$basetexture" "paintball/vgui_rolleron"
+	"$translucent" 1
+}

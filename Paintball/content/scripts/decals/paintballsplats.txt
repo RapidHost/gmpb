@@ -1,0 +1,110 @@
+"pbsplat1"
+{
+	"paintball/splats/splat_b_1" 	"1"
+}
+
+"pbsplat2"
+{
+	"paintball/splats/splat_b_2" 	"1"
+}
+
+"pbsplat3"
+{
+	"paintball/splats/splat_b_3" 	"1"
+}
+
+"pbsplat4"
+{
+	"paintball/splats/splat_b_4" 	"1"
+}
+
+"pbsplat5"
+{
+	"paintball/splats/splat_b_5" 	"1"
+}
+
+"pbsplat6"
+{
+	"paintball/splats/splat_g_1" 	"1"
+}
+
+"pbsplat7"
+{
+	"paintball/splats/splat_g_2" 	"1"
+}
+
+"pbsplat8"
+{
+	"paintball/splats/splat_g_3" 	"1"
+}
+
+"pbsplat9"
+{
+	"paintball/splats/splat_g_4" 	"1"
+}
+
+"pbsplat10"
+{
+	"paintball/splats/splat_g_5" 	"1"
+}
+
+"pbsplat11"
+{
+	"paintball/splats/splat_o_1" 	"1"
+}
+"pbsplat12"
+{
+	"paintball/splats/splat_o_2" 	"1"
+}
+"pbsplat13"
+{
+	"paintball/splats/splat_o_3" 	"1"
+}
+"pbsplat14"
+{
+	"paintball/splats/splat_o_4" 	"1"
+}
+"pbsplat15"
+{
+	"paintball/splats/splat_o_5" 	"1"
+}
+"pbsplat16"
+{
+	"paintball/splats/splat_p_1" 	"1"
+}
+"pbsplat17"
+{
+	"paintball/splats/splat_p_2" 	"1"
+}
+"pbsplat18"
+{
+	"paintball/splats/splat_p_3" 	"1"
+}
+"pbsplat19"
+{
+	"paintball/splats/splat_p_4" 	"1"
+}
+"pbsplat20"
+{
+	"paintball/splats/splat_p_5" 	"1"
+}
+"pbsplat21"
+{
+	"paintball/splats/splat_r_1" 	"1"
+}
+"pbsplat22"
+{
+	"paintball/splats/splat_r_2" 	"1"
+}
+"pbsplat23"
+{
+	"paintball/splats/splat_r_3" 	"1"
+}
+"pbsplat24"
+{
+	"paintball/splats/splat_r_4" 	"1"
+}
+"pbsplat25"
+{
+	"paintball/splats/splat_r_5" 	"1"
+}
