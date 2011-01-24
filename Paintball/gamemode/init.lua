@@ -58,7 +58,7 @@ function GM:PlayerInitialSpawn( ply )
 	
 	CVAR.Load( ply )
 	CVAR.Create( ply )
-	CVAR.New( ply , "name",  ply:Nick() )
+	CVAR.New( ply , "name", ply:Nick() )
 	
 	if !( CVAR.Request(ply, "money") == nil ) then
 		if CVAR.Request(ply, "money") > 0 then
@@ -193,6 +193,7 @@ function GM:OnPlayerFlagTake( ply, flag )
 end
 
 function GM:OnPlayerFlagCapture( ply, flag )
+	self:RoundEndWithResult( ply:Team() ) -- Round should end
 	ply:AddFrags( self:GetSetting( "PointsPerFlagCap" ) )
 	ply:AddMoney( self:GetSetting( "MoneyPerCapture" ) )
 	team.AddScore( ply:Team(), 1 )
