@@ -149,25 +149,29 @@ function GM:RoundTimerEnd()
 end
 
 function GM:OnPlayerTagged( ply, paintball, attacker )
-	timer.Simple( 2, function()
-		if IsValid( ply ) and IsValid( attacker )and  ply:IsPlayer() and attacker:IsPlayer() and ply != attacker then
-			ply:PlayGameSound( "misc/freeze_cam.wav" )
-			ply:SpectateEntity( attacker )
-			ply:Spectate( OBS_MODE_FREEZECAM )
-		end
-	end )
+	if ( ply:Team() == attacker:Team() and !self.NoPlayerTeamDamage ) or ply:Team() != attacker:Team() then
+		timer.Simple( 2, function()
+			if IsValid( ply ) and IsValid( attacker )and  ply:IsPlayer() and attacker:IsPlayer() and ply != attacker then
+				ply:PlayGameSound( "misc/freeze_cam.wav" )
+				ply:SpectateEntity( attacker )
+				ply:Spectate( OBS_MODE_FREEZECAM )
+			end
+		end )
 	
-	umsg.Start( "PlayerTagedPlayer" )
-		umsg.Entity( attacker )
-		umsg.Entity( ply )
-	umsg.End()
-	
-	attacker:AddFrags( 1 )
-	attacker:SetNetworkedInt("GMPBMoney", attacker:GetNetworkedInt("GMPBMoney") + self:GetSetting( "MoneyPerKill" ))
-	SaveData(ply)
-	
-	ply:KillSilent() -- Temp
-	ply:CreateRagdoll()
+		umsg.Start( "PlayerTagedPlayer" )
+			umsg.Entity( attacker )
+			umsg.Entity( ply )
+		umsg.End()
+		
+		attacker:AddFrags( 1 )
+		attacker:SetNetworkedInt("GMPBMoney", attacker:GetNetworkedInt("GMPBMoney") + self:GetSetting( "MoneyPerKill" ))
+		ply:SetNetworkedInt("GMPBMoney", ply:GetNetworkedInt("GMPBMoney") + self:GetSetting( "MoneyPerDeath" ))
+		SaveData(attacker)
+		SaveData(ply)
+		
+		ply:KillSilent() -- Temp
+		ply:CreateRagdoll()
+	end
 end
 
 function GM:PlayerLoadout( ply )
