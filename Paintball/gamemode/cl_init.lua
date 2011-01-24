@@ -40,11 +40,10 @@ usermessage.Hook( "PlayerTagedPlayer", function( msg )
 end )
 
 function GM:GetMotionBlurValues( x, y, fwd, spin )
-
-	fwd = 0.01
-
+	if LocalPlayer():Alive() and ( LocalPlayer():Team() == TEAM_RED or LocalPlayer():Team() == TEAM_BLUE ) then
+		fwd = 0.01
+	end
 	return x, y, fwd, spin
-
 end
 
 local WalkTimer = 0
