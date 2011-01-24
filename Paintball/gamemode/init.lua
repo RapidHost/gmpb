@@ -11,6 +11,7 @@ GM.Settings = {
 	StartMoney = 500,
 	MaxMoney = 10000,
 	PointsPerFlagCap = 2,
+	DefaultWeapon = "pb_blazer",
 }
 
 function GM:GetSetting( setting )
@@ -22,7 +23,7 @@ function GM:InitPostEntity()
 	
 	local settings = physenv.GetPerformanceSettings()
 
-	settings.MaxVelocity = 10000 -- Raised max physics velocity
+	settings.MaxVelocity = 20000 -- Raised max physics velocity
 	settings.MaxAngularVelocity = 3600
 	settings.MinFrictionMass = 10
 	settings.MaxFrictionMass = 2500
@@ -40,6 +41,7 @@ end
 
 function GM:PlayerInitialSpawn( ply )
 	self.BaseClass:PlayerInitialSpawn( ply )
+	ply.CurUsedWeapon = self:GetSetting( "DefaultWeapon" )
 end
 
 hook.Add( "SetupPlayerVisibility", "AddFlagToVis", function( ply, viewent )
@@ -85,9 +87,7 @@ end
 
 function GM:OnPreRoundStart( num )
 	
-	for k,v in pairs( player.GetAll() ) do --Each round we start fresh.
-		v:SetFrags( 0 )
-		v:SetDeaths( 0 )
+	for k,v in pairs( player.GetAll() ) do
 		v:SetFlag()
 	end
 	
@@ -135,23 +135,50 @@ function GM:OnPlayerTagged( ply, paintball, attacker )
 			ply:Spectate( OBS_MODE_FREEZECAM )
 		end
 	end )
-	ply:Kill() -- Temp.
+	
+	umsg.Start( "PlayerTagedPlayer" )
+		umsg.Entity( attacker )
+		umsg.Entity( ply )
+	umsg.End()
+	
+	ply:KillSilent() -- Temp
+	ply:CreateRagdoll()
+end
+
+function GM:PlayerLoadout( ply )
+	ply:Give( ply.CurUsedWeapon )
 end
 
 function GM:OnPlayerFlagTake( ply, flag )
 	self:PlayGameSound( "ambient/alarms/klaxon1.wav" )
+	umsg.Start( "PlayerFlag" )
+		umsg.Entity( ply )
+		umsg.String( "took" )
+	umsg.End()
 end
 
 function GM:OnPlayerFlagCapture( ply, flag )
-	
+	team.AddScore( ply:Team(), 1 )
+	umsg.Start( "PlayerFlag" )
+		umsg.Entity( ply )
+		umsg.String( "captured" )
+	umsg.End()
 end
 
 function GM:OnPlayerFlagReturned( ply, flag )
 	self:PlayGameSound( "hl1/fvox/bell.wav" )
+	umsg.Start( "PlayerFlag" )
+		umsg.Entity( ply )
+		umsg.String( "returned" )
+	umsg.End()
 end
 
 function GM:OnPlayerFlagDropped( ply, flag )
 	self:PlayGameSound( "npc/roller/code2.wav" )
+	umsg.Start( "PlayerFlag" )
+		umsg.Entity( ply )
+		umsg.String( "dropped" )
+	umsg.End()
 end
 
 function GM:PlayerDeath( ply, inflictor, attacker )

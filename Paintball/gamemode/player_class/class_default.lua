@@ -11,8 +11,4 @@ CLASS.StartArmor			= 0
 CLASS.DrawTeamRing			= false
 CLASS.CanUseFlashlight     	= false
 
-function CLASS:OnSpawn( ply )
-	ply:Give( "weapon_paintballgun" )
-end
-
 player_class.Register( CLASS.DisplayName, CLASS )

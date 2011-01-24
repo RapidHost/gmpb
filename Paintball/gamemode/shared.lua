@@ -16,9 +16,9 @@ GM.GameLength = 30
 
 GM.NoPlayerSuicide = false
 GM.NoPlayerDamage = false
-GM.NoPlayerSelfDamage = true		
+GM.NoPlayerSelfDamage = false		
 GM.NoPlayerTeamDamage = true		
-GM.NoPlayerPlayerDamage = true 	
+GM.NoPlayerPlayerDamage = false 	
 GM.NoNonPlayerPlayerDamage = false 	
 
 GM.EnableFreezeCam = false				// TF2 Style Freezecam
@@ -32,7 +32,7 @@ GM.RealisticFallDamage = true			// Break their fucking legs
 
 GM.NoAutomaticSpawning = true			// Players don't spawn automatically when they die, some other system spawns them
 GM.RoundBased = true					// Round based, like CS
-GM.RoundLength = 120					// Round length, in seconds
+GM.RoundLength = 180					// Round length, in seconds
 GM.RoundEndsWhenOneTeamAlive = true 	// CS Style rules
 GM.RoundLimit = 10
 

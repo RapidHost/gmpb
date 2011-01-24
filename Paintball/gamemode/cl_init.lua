@@ -2,42 +2,46 @@ include( "shared.lua" )
 include( "cl_hud.lua" )
 include( "cl_scoreboard.lua" )
 
-killicon.Add( "paint_ball", "oddball/capicon", color_white )
+killicon.Add( "paint_ball", "paintball/paintball_killicon", color_white )
+killicon.Add( "flag", "paintball/vgui_rolleroff", color_white )
 	
-usermessage.Hook( "PlayerCappedOddball", function( msg )
+usermessage.Hook( "PlayerFlag", function( msg )
 
 	local ply = msg:ReadEntity()
+	local txt = msg:ReadString()
 	
 	if ( !IsValid( g_DeathNotify ) ) then return end
 
 	local pnl = vgui.Create( "GameNotice", g_DeathNotify )
 	
 	pnl:AddText( ply )
-	pnl:AddText( "captured" )
-	pnl:AddIcon( "oddballcap" )
+	pnl:AddText( txt )
+	pnl:AddIcon( "flag" )
 	
 	g_DeathNotify:AddItem( pnl )
 	
 end )
-	
-usermessage.Hook( "OddballReset", function( msg )
 
+usermessage.Hook( "PlayerTagedPlayer", function( msg )
+
+	local ply = msg:ReadEntity()
+	local tagged = msg:ReadEntity()
+	
 	if ( !IsValid( g_DeathNotify ) ) then return end
 
 	local pnl = vgui.Create( "GameNotice", g_DeathNotify )
 	
-	pnl:AddIcon( "oddballcap" )
-	pnl:AddText( "has been reset!" )
+	pnl:AddText( ply )
+	pnl:AddIcon( "paint_ball" )
+	pnl:AddText( tagged )
 	
 	g_DeathNotify:AddItem( pnl )
 	
 end )
 
-function GM:GetMotionBlurValues( x, y, fwd, spin ) //fwd is cone
+function GM:GetMotionBlurValues( x, y, fwd, spin )
 
-	if LocalPlayer():GetFOV() < 75 then
-		fwd = 0.05
-	end
+	fwd = 0.01
 
 	return x, y, fwd, spin
 
