@@ -20,6 +20,15 @@ function meta:DropFlag()
 	end
 end
 
+function meta:PrintConsole( txt ) -- Easier to remember..
+	self:PrintMessage( HUD_PRINTCONSOLE, txt )
+end
+
+function meta:BuyWeapon( weap )
+	local cost = GAMEMODE:GetWeaponCost( weap )
+	hook.Call( "OnPlayerBoughtWeapon", GAMEMODE, self, weap, ( cost and self:GetMoney >= cost ), cost )
+end
+
 function meta:PlayGameSound( snd )
 	if SERVER then
 		self:SendLua( string.format( "surface.PlaySound(\"%s\")", snd ) )

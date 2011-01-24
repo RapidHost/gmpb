@@ -1,15 +1,17 @@
-AddCSLuaFile( "cl_hud.lua" )
 AddCSLuaFile( "shared.lua" )
+AddCSLuaFile( "sh_player_extension.lua" )
 AddCSLuaFile( "cl_init.lua" )
-AddCSLuaFile( "player_extension.lua" )
+AddCSLuaFile( "cl_hud.lua" )
 AddCSLuaFile( "cl_scoreboard.lua" )
 
 include( "shared.lua" )
-include( "downloads.lua" )
-include( "player_extension.lua" )
+include( "sh_player_extension.lua" )
+include( "sv_downloads.lua" )
+include( "sv_commands.lua" )
 include( "vars/client.lua" )
 include( "vars/server.lua" )
 
+-- General game settings
 GM.Settings = {
 	StartMoney = 500,
 	MaxMoney = 10000,
@@ -29,6 +31,16 @@ GM.Settings = {
 
 function GM:GetSetting( setting )
 	return self.Settings[ setting ] or ""
+end
+
+-- Weapon pricing
+GM.WeaponsAndPricing = { 
+	pb_blazer = 500,
+	pb_angel = 1000,
+}
+
+function GM:GetWeaponCost( weap )
+	return self.WeaponsAndPricing[ weap ] or 0
 end
 
 function GM:InitPostEntity()
@@ -182,6 +194,18 @@ function GM:PlayerLoadout( ply )
 	ply:Give( ply.CurUsedWeapon )
 end
 
+-- Player buying is currently setup for the purchasing of a weapon then the disguarding of their old, like css. Change or leave?
+function GM:OnPlayerBoughtWeapon( ply, weap, success, spent ) -- Handles player purchases
+	if success then -- success will be true when they have enough money to buy the weapon
+		ply.CurUsedWeapon = weap
+		if ply:Alive() then
+			ply:StripWeapons()
+			ply:Give( weap )
+		end
+		ply:TakeMoney( spent )
+	end
+end
+
 function GM:OnPlayerFlagTake( ply, flag )
 	ply:AddFrags( self:GetSetting( "PointsPerFlagTake" ) )
 	ply:AddMoney( self:GetSetting( "MoneyPerTake" ) )
@@ -230,7 +254,7 @@ function GM:PlayerDeath( ply, inflictor, attacker )
 end
 
 function GM:PlayerDeathSound()
-	return true --FUCK YOU
+	return true --Disables the default beeping death sound
 end
 
 function GM:GetFallDamage( ply, vel ) --REAL realistic fall damage silly garry
