@@ -172,6 +172,7 @@ function GM:OnPlayerTagged( ply, paintball, attacker )
 		
 		ply:KillSilent() -- Temp
 		ply:CreateRagdoll()
+		ply:DropFlag()
 	end
 end
 

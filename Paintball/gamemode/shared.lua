@@ -34,7 +34,7 @@ GM.NoAutomaticSpawning = true			// Players don't spawn automatically when they d
 GM.RoundBased = true					// Round based, like CS
 GM.RoundLength = 180					// Round length, in seconds
 GM.RoundEndsWhenOneTeamAlive = true 	// CS Style rules
-GM.RoundLimit = 10
+GM.RoundLimit = 20
 
 GM.SpectateAllPlayers = true			// When true, when a player is assigned to a team, it allows them to spec any player
 
