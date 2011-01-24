@@ -6,10 +6,18 @@ AddCSLuaFile( "player_extension.lua" )
 include( "shared.lua" )
 include( "downloads.lua" )
 include( "player_extension.lua" )
+include( "vars/client.lua" )
+include( "vars/server.lua" )
 
 GM.Settings = {
 	StartMoney = 500,
 	MaxMoney = 10000,
+	MoneyPerKill = 10,
+	MoneyPerDeath = 10,
+	MoneyPerDrop = 15,
+	MoneyPerReturn = 15,
+	MoneyPerCapture = 50,
+	MoneyPerCaptureAssist = 25, -- Player returns the flag x seconds before another player captures
 	PointsPerFlagCap = 2,
 	DefaultWeapon = "pb_blazer",
 }
@@ -42,6 +50,18 @@ end
 function GM:PlayerInitialSpawn( ply )
 	self.BaseClass:PlayerInitialSpawn( ply )
 	ply.CurUsedWeapon = self:GetSetting( "DefaultWeapon" )
+	
+	CVAR.Load( ply )
+	CVAR.Create( ply )
+	CVAR.New( ply , "name",  ply:Nick() )
+	
+	if !((CVAR.Request(ply, "money")) == nil) then
+		if (CVAR.Request(ply, "money") > 0) then
+			ply:SetNetworkedInt("GMPBMoney", CVAR.Request(ply, "money"))
+		else
+			CVAR.New(ply, "money", 0)
+		end
+	end
 end
 
 hook.Add( "SetupPlayerVisibility", "AddFlagToVis", function( ply, viewent )
