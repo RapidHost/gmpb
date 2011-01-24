@@ -20,7 +20,10 @@ GM.Settings = {
 	MoneyPerTake = 10,
 	MoneyPerCapture = 50,
 	MoneyPerCaptureAssist = 25, -- Player returns the flag x seconds before another player captures
+	PointsPerFlagTake = 1,
 	PointsPerFlagCap = 2,
+	PointsPerFlagDrop = -1,
+	PointsPerFlagReturn = 1,
 	DefaultWeapon = "pb_blazer",
 }
 
@@ -180,7 +183,7 @@ function GM:PlayerLoadout( ply )
 end
 
 function GM:OnPlayerFlagTake( ply, flag )
-	ply:AddFrags( 1 )
+	ply:AddFrags( self:GetSetting( "PointsPerFlagTake" ) )
 	ply:AddMoney( self:GetSetting( "MoneyPerTake" ) )
 	self:PlayGameSound( "ambient/alarms/klaxon1.wav" )
 	umsg.Start( "PlayerFlag" )
@@ -190,7 +193,7 @@ function GM:OnPlayerFlagTake( ply, flag )
 end
 
 function GM:OnPlayerFlagCapture( ply, flag )
-	ply:AddFrags( 1 )
+	ply:AddFrags( self:GetSetting( "PointsPerFlagCap" ) )
 	ply:AddMoney( self:GetSetting( "MoneyPerCapture" ) )
 	team.AddScore( ply:Team(), 1 )
 	umsg.Start( "PlayerFlag" )
@@ -200,7 +203,7 @@ function GM:OnPlayerFlagCapture( ply, flag )
 end
 
 function GM:OnPlayerFlagReturned( ply, flag )
-	ply:AddFrags( 1 )
+	ply:AddFrags( self:GetSetting( "PointsPerFlagReturn" ) )
 	ply:AddMoney( self:GetSetting( "MoneyPerReturn" ) )
 	self:PlayGameSound( "hl1/fvox/bell.wav" )
 	umsg.Start( "PlayerFlag" )
@@ -210,7 +213,7 @@ function GM:OnPlayerFlagReturned( ply, flag )
 end
 
 function GM:OnPlayerFlagDropped( ply, flag )
-	ply:AddFrags( -1 )
+	ply:AddFrags( self:GetSetting( "PointsPerFlagDrop" ) )
 	ply:AddMoney( self:GetSetting( "MoneyPerDrop" ) )
 	self:PlayGameSound( "npc/roller/code2.wav" )
 	umsg.Start( "PlayerFlag" )
