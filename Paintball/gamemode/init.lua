@@ -13,9 +13,10 @@ GM.Settings = {
 	StartMoney = 500,
 	MaxMoney = 10000,
 	MoneyPerKill = 10,
-	MoneyPerDeath = 10,
-	MoneyPerDrop = 15,
+	MoneyPerDeath = -5,
+	MoneyPerDrop = -15,
 	MoneyPerReturn = 15,
+	MoneyPerTake = 10,
 	MoneyPerCapture = 50,
 	MoneyPerCaptureAssist = 25, -- Player returns the flag x seconds before another player captures
 	PointsPerFlagCap = 2,
@@ -161,7 +162,9 @@ function GM:OnPlayerTagged( ply, paintball, attacker )
 		umsg.Entity( ply )
 	umsg.End()
 	
-	ply:AddFrags( 1 )
+	attacker:AddFrags( 1 )
+	attacker:SetNetworkedInt("GMPBMoney", attacker:GetNetworkedInt("GMPBMoney") + self:GetSetting( "MoneyPerKill" ))
+	SaveData(ply)
 	
 	ply:KillSilent() -- Temp
 	ply:CreateRagdoll()
@@ -173,6 +176,8 @@ end
 
 function GM:OnPlayerFlagTake( ply, flag )
 	ply:AddFrags( 1 )
+	ply:SetNetworkedInt("GMPBMoney", ply:GetNetworkedInt("GMPBMoney") + self:GetSetting( "MoneyPerTake" ))
+	SaveData(ply)
 	self:PlayGameSound( "ambient/alarms/klaxon1.wav" )
 	umsg.Start( "PlayerFlag" )
 		umsg.Entity( ply )
@@ -182,6 +187,8 @@ end
 
 function GM:OnPlayerFlagCapture( ply, flag )
 	ply:AddFrags( 1 )
+	ply:SetNetworkedInt("GMPBMoney", ply:GetNetworkedInt("GMPBMoney") + self:GetSetting( "MoneyPerCapture" ))
+	SaveData(ply)
 	team.AddScore( ply:Team(), 1 )
 	umsg.Start( "PlayerFlag" )
 		umsg.Entity( ply )
@@ -191,6 +198,8 @@ end
 
 function GM:OnPlayerFlagReturned( ply, flag )
 	ply:AddFrags( 1 )
+	ply:SetNetworkedInt("GMPBMoney", ply:GetNetworkedInt("GMPBMoney") + self:GetSetting( "MoneyPerReturn" ))
+	SaveData(ply)
 	self:PlayGameSound( "hl1/fvox/bell.wav" )
 	umsg.Start( "PlayerFlag" )
 		umsg.Entity( ply )
@@ -199,7 +208,9 @@ function GM:OnPlayerFlagReturned( ply, flag )
 end
 
 function GM:OnPlayerFlagDropped( ply, flag )
-	ply:AddFrags( 1 )
+	ply:AddFrags( -1 )
+	ply:SetNetworkedInt("GMPBMoney", ply:GetNetworkedInt("GMPBMoney") + self:GetSetting( "MoneyPerDrop" ))
+	SaveData(ply)
 	self:PlayGameSound( "npc/roller/code2.wav" )
 	umsg.Start( "PlayerFlag" )
 		umsg.Entity( ply )
@@ -209,6 +220,8 @@ end
 
 function GM:PlayerDeath( ply, inflictor, attacker )
 	self.BaseClass:PlayerDeath( ply, inflictor, attacker )
+	ply:SetNetworkedInt("GMPBMoney", ply:GetNetworkedInt("GMPBMoney") + self:GetSetting( "MoneyPerDeath" ))
+	SaveData(ply)
 	ply:DropFlag()
 end
 
@@ -222,5 +235,12 @@ function GM:GetFallDamage( ply, vel ) --REAL realistic fall damage silly garry
 		return vel * ( 100 / ( 922.5 - 526.5 ) )
 	else
 		return 10
+	end
+end
+
+function SaveData( ply )
+	if IsValid( ply ) and ply:IsPlayer() then
+		CVAR.Update(ply, "money", ply:GetNetworkedInt("GMPBMoney"))
+		CVAR.Save( ply )
 	end
 end
