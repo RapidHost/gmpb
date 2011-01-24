@@ -88,6 +88,7 @@ function GM:OnPreRoundStart( num )
 	for k,v in pairs( player.GetAll() ) do --Each round we start fresh.
 		v:SetFrags( 0 )
 		v:SetDeaths( 0 )
+		v:SetFlag()
 	end
 	
 	game.CleanUpMap( false, { "flag", "flagbase", } )
