@@ -28,10 +28,30 @@ function meta:PlayGameSound( snd )
 	end
 end
 
-function meta:SetMoney( amt )
-	self:SetNWInt( "Mny", amt )
+function meta:AddMoney( amt )
+	self:SetMoney( self:GetMoney() + amt )
+	if SERVER then
+		CVAR.Update( self, "money", self:GetMoney() )
+		CVAR.Save( self )
+	end
 end
 
-function meta:GetMoney( amt )
+function meta:SubtractMoney( amt )
+	self:SetMoney( self:GetMoney() - amt )
+	if SERVER then
+		CVAR.Update( self, "money", self:GetMoney() )
+		CVAR.Save( self )
+	end
+end
+
+function meta:SetMoney( amt )
+	self:SetNWInt( "Mny", amt )
+	if SERVER then
+		CVAR.Update( self, "money", self:GetMoney() )
+		CVAR.Save( self )
+	end
+end
+
+function meta:GetMoney()
 	return self:GetNWInt( "Mnt" )
 end

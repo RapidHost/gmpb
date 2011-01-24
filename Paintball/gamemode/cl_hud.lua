@@ -9,7 +9,7 @@ hook.Add( "HUDPaint", "GMPB_HUD", function()
 		
 		surface.CreateFont ("Trebuchet", 24, 400, true, false, "T24")
 		draw.RoundedBox(0, ScrW() / 2 - 32, 32, 64, 32, Color(255, 165, 0, 191))
-		draw.SimpleText("$" ..LocalPlayer():GetNetworkedFloat("GMPBMoney"), "T24", ScrW() / 2 - 1, 47, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+		draw.SimpleText("$" ..LocalPlayer():GetMoney(), "T24", ScrW() / 2 - 1, 47, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 		
 		draw.RoundedBoxEx(6, ScrW() / 2 - 64, 32, 32, 32, team.GetColor(1), false, false, true, false)
 		draw.SimpleText(tostring(team.GetScore(1)), "T24", ScrW() / 2 - 48, 47, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
