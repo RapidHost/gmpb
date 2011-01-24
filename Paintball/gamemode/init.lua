@@ -2,6 +2,7 @@ AddCSLuaFile( "cl_hud.lua" )
 AddCSLuaFile( "shared.lua" )
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "player_extension.lua" )
+AddCSLuaFile( "cl_scoreboard.lua" )
 
 include( "shared.lua" )
 include( "downloads.lua" )
