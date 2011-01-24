@@ -141,6 +141,8 @@ function GM:OnPlayerTagged( ply, paintball, attacker )
 		umsg.Entity( ply )
 	umsg.End()
 	
+	ply:AddFrags( 1 )
+	
 	ply:KillSilent() -- Temp
 	ply:CreateRagdoll()
 end
@@ -150,6 +152,7 @@ function GM:PlayerLoadout( ply )
 end
 
 function GM:OnPlayerFlagTake( ply, flag )
+	ply:AddFrags( 1 )
 	self:PlayGameSound( "ambient/alarms/klaxon1.wav" )
 	umsg.Start( "PlayerFlag" )
 		umsg.Entity( ply )
@@ -158,6 +161,7 @@ function GM:OnPlayerFlagTake( ply, flag )
 end
 
 function GM:OnPlayerFlagCapture( ply, flag )
+	ply:AddFrags( 1 )
 	team.AddScore( ply:Team(), 1 )
 	umsg.Start( "PlayerFlag" )
 		umsg.Entity( ply )
@@ -166,6 +170,7 @@ function GM:OnPlayerFlagCapture( ply, flag )
 end
 
 function GM:OnPlayerFlagReturned( ply, flag )
+	ply:AddFrags( 1 )
 	self:PlayGameSound( "hl1/fvox/bell.wav" )
 	umsg.Start( "PlayerFlag" )
 		umsg.Entity( ply )
@@ -174,6 +179,7 @@ function GM:OnPlayerFlagReturned( ply, flag )
 end
 
 function GM:OnPlayerFlagDropped( ply, flag )
+	ply:AddFrags( 1 )
 	self:PlayGameSound( "npc/roller/code2.wav" )
 	umsg.Start( "PlayerFlag" )
 		umsg.Entity( ply )
