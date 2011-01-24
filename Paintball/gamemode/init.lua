@@ -57,11 +57,11 @@ function GM:PlayerInitialSpawn( ply )
 	CVAR.Create( ply )
 	CVAR.New( ply , "name",  ply:Nick() )
 	
-	if !((CVAR.Request(ply, "money")) == nil) then
-		if (CVAR.Request(ply, "money") > 0) then
-			ply:SetNetworkedInt("GMPBMoney", CVAR.Request(ply, "money"))
+	if !( CVAR.Request(ply, "money") == nil ) then
+		if CVAR.Request(ply, "money") > 0 then
+			ply:SetMoney( CVAR.Request( ply, "money" ) )
 		else
-			CVAR.New(ply, "money", 0)
+			CVAR.New( ply, "money", 0 )
 		end
 	end
 end
