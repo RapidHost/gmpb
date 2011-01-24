@@ -1,0 +1,8 @@
+"VertexLitGeneric"
+{
+	"$translucent" 1
+	"$basetexture" "paintball/splats/splat_o_5"
+	"$decal" 1
+	"$decalscale" 0.50
+	"$model" 1
+}

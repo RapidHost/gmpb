@@ -1,0 +1,5 @@
+"UnlitGeneric"
+{
+	"$basetexture" "paintball/mask"
+	"$translucent" 1
+}
