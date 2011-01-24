@@ -45,6 +45,9 @@ end
 
 function ENT:Return( ply, shouldcall )
 	print( "Return", ply )
+	if IsValid( ply ) then
+		ply:SetFlag()
+	end
 	self:SetParent()
 	self:SetOwner()
 	self:SetCollisions( false )

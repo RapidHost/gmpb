@@ -8,8 +8,6 @@ hook.Add( "HUDPaint", "GMPB_HUD", function()
 		surface.DrawTexturedRect( 0, 0, ScrW(), ScrH())
 	end
 	
-	
-	
 end )
 
 local ToHide = { "CHudHealth", "CHudBattery", "CHudSecondaryAmmo" }

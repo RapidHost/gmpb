@@ -2,17 +2,12 @@ local meta = FindMetaTable( "Player" )
 if !meta then return end
 
 function meta:SetFlag( ent )
-	if IsValid( ent ) then
-		self:SetNWBool( "HasFlag", true )
-		self.FlagEntity = ent
-	else
-		self:SetNWBool( "HasFlag", false )
-		self.FlagEntity = nil
-	end
+	print( self, "SetFlag", ent )
+	self.FlagEntity = ent
 end
 
 function meta:HasFlag()
-	return self:GetNWBool( "HasFlag", false )
+	return IsValid( self.FlagEntity )
 end
 
 function meta:GetFlag()
