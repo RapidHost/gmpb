@@ -62,5 +62,5 @@ function meta:SetMoney( amt )
 end
 
 function meta:GetMoney()
-	return self:GetNWInt( "Mnt" )
+	return self:GetNWInt( "Mny" )
 end

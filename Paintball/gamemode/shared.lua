@@ -72,7 +72,7 @@ function GM:CreateTeams()
 	team.SetSpawnPoint( TEAM_BLUE, { "info_player_counterterrorist", "blue_team" } )
 	team.SetClass( TEAM_BLUE, { "Default" } )
 	
-	team.SetUp( TEAM_SPECTATOR, "Spectators", Color( 255, 255, 80 ), true )
+	team.SetUp( TEAM_SPECTATOR, "Spectators", Color( 180, 180, 180 ), true )
 	team.SetSpawnPoint( TEAM_SPECTATOR, { "info_player_start" } )
 
 end
