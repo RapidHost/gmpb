@@ -1,3 +1,4 @@
+AddCSLuaFile( "sh_gamevars.lua" )
 AddCSLuaFile( "shared.lua" )
 AddCSLuaFile( "sh_player_extension.lua" )
 AddCSLuaFile( "cl_init.lua" )

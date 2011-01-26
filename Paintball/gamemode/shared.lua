@@ -1,3 +1,5 @@
+include( "sh_gamevars.lua" )
+
 GM.Name 	= "Paintball"
 GM.Author 	= "The Deuce Box, Panda X, BlackOps, & Sassafrass"
 GM.Email 	= ""
