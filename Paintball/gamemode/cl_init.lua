@@ -1,3 +1,4 @@
+include( "sh_player_extension.lua" )
 include( "shared.lua" )
 include( "cl_hud.lua" )
 include( "cl_scoreboard.lua" )

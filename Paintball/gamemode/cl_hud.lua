@@ -1,4 +1,3 @@
-include( "sh_player_extension.lua" )
 local MaskMat = surface.GetTextureID( "paintball/mask" )
 
 hook.Add( "HUDPaint", "GMPB_HUD", function()
