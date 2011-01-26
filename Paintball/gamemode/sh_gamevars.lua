@@ -13,6 +13,6 @@ function GameCvar:Create( name, defaultvalue, flags, valuetoupdate, vartype ) --
 end
 
 -- tobool, tonumber, tostring
-GameCvar:Create( "gmpb_autoteambalnce", 0, { FCVAR_REPLICATED, FCVAR_ARCHIVE }, GAMEMODE.AutomaticTeamBalance, tobool )
-GameCvar:Create( "gmpb_roundlength", 180, { FCVAR_REPLICATED, FCVAR_ARCHIVE }, GAMEMODE.RoundLength, tonumber )
-GameCvar:Create( "gmpb_roundlimit", 20, { FCVAR_REPLICATED, FCVAR_ARCHIVE }, GAMEMODE.RoundLimit, tonumber )
+GameCvar:Create( "gmpb_autoteambalnce", 0, { FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY }, GAMEMODE.AutomaticTeamBalance, tobool )
+GameCvar:Create( "gmpb_roundlength", 180, { FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY }, GAMEMODE.RoundLength, tonumber )
+GameCvar:Create( "gmpb_roundlimit", 20, { FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY }, GAMEMODE.RoundLimit, tonumber )
