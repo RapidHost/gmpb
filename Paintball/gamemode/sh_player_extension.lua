@@ -26,7 +26,7 @@ end
 
 function meta:BuyWeapon( weap )
 	local cost = GAMEMODE:GetWeaponCost( weap )
-	hook.Call( "OnPlayerBoughtWeapon", GAMEMODE, self, weap, ( cost and self:GetMoney >= cost ), cost )
+	hook.Call( "OnPlayerBoughtWeapon", GAMEMODE, self, weap, ( cost and self:GetMoney() >= cost ), cost )
 end
 
 function meta:PlayGameSound( snd )
