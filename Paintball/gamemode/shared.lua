@@ -1,11 +1,9 @@
-include( "sh_gamevars.lua" )
-
 GM.Name 	= "Paintball"
 GM.Author 	= "The Deuce Box, Panda X, BlackOps, & Sassafrass"
 GM.Email 	= ""
 GM.Website 	= ""
 
-DeriveGamemode( "fretta" )
+DeriveGamemode( "frettav2" )
 IncludePlayerClasses()
 
 GM.Help		= "Play some paintball"
@@ -28,17 +26,18 @@ GM.DeathLingerTime = 5					// The time between you dying and it going into spect
 
 GM.MaximumDeathLength = 5				// Player will repspawn if death length > this (can be 0 to disable)
 GM.MinimumDeathLength = 5				// Player has to be dead for at least this long
-GM.AutomaticTeamBalance = true     		// Teams will be periodically balanced 
 GM.ForceJoinBalancedTeams = true		// Players won't be allowed to join a team if it has more players than another team
 GM.RealisticFallDamage = true			// Break their fucking legs
 
 GM.NoAutomaticSpawning = true			// Players don't spawn automatically when they die, some other system spawns them
 GM.RoundBased = true					// Round based, like CS
-GM.RoundLength = 180					// Round length, in seconds
 GM.RoundEndsWhenOneTeamAlive = true 	// CS Style rules
-GM.RoundLimit = 20
 
 GM.SpectateAllPlayers = true			// When true, when a player is assigned to a team, it allows them to spec any player
+
+CreateConVar( "gmpb_autoteambalnce", 0, { FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY } )
+CreateConVar( "gmpb_roundlength", 180, { FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY } )
+CreateConVar( "gmpb_roundlimit", 20, { FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY } )
 
 TEAM_RED = 1
 TEAM_BLUE = 2

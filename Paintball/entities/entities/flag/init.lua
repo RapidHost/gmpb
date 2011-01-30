@@ -61,13 +61,11 @@ function ENT:Return( ply, shouldcall )
 end
 
 function ENT:PlayerCapture( ply )
-	print( "PlayerCapture", ply )
 	self:Return( ply, false )
 	hook.Call( "OnPlayerFlagCapture", GAMEMODE, ply, self )
 end
 
 function ENT:PlayerTake( ply )
-	print( "PlayerTake", ply )
 	ply:SetFlag( self )
 	self:SetOwner( ply )
 	self:SetParent( ply )
@@ -85,7 +83,6 @@ end
 
 function ENT:PlayerDropped( ply )
 
-	print( "PlayerDropped", ply )
 	ply:SetFlag()
 	
 	local Pos = self:GetPos()

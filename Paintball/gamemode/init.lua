@@ -44,6 +44,23 @@ function GM:GetWeaponCost( weap )
 	return self.WeaponsAndPricing[ weap ] or 0
 end
 
+function GM:Initialize()
+	
+	// If we're round based, wait 5 seconds before the first round starts
+	if ( self.RoundBased ) then
+		timer.Simple( 10, function()
+			self:StartRoundBasedGame()
+		end )
+	end
+	
+	timer.Create( "CheckTeamBalance", 30, 0, function()
+		if GetConVar( "gmpb_autoteambalnce" ):GetBool() then
+			self:CheckTeamBalance()
+		end
+	end )
+	
+end
+
 function GM:InitPostEntity()
 	self.BaseClass:InitPostEntity()
 	
@@ -145,6 +162,14 @@ end
 
 function GM:OnRoundStart( num )
 	UTIL_UnFreezeAllPlayers()
+end
+
+function GM:GetRoundLimit()
+	return GetConVar( "gmpb_roundlimit" ):GetInt()
+end
+
+function GM:GetRoundTime( roundnum )
+	return GetConVar( "gmpb_roundlength" ):GetFloat()
 end
 
 function GM:PlayerSetModel( ply )
