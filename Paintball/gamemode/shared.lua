@@ -3,7 +3,7 @@ GM.Author 	= "The Deuce Box, Panda X, BlackOps, & Sassafrass"
 GM.Email 	= ""
 GM.Website 	= ""
 
-DeriveGamemode( "frettav2" )
+DeriveGamemode( "fretta" )
 IncludePlayerClasses()
 
 GM.Help		= "Play some paintball"
