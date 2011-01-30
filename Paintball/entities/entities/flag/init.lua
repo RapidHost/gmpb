@@ -44,7 +44,6 @@ function ENT:SetUp( teamid, base )
 end
 
 function ENT:Return( ply, shouldcall )
-	print( "Return", ply )
 	if IsValid( ply ) then
 		ply:SetFlag()
 	end
