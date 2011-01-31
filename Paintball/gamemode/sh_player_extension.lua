@@ -70,7 +70,7 @@ end
 -- Captures
 
 function meta:AddCaptures( amt )
-	self:SetMoney( self:GetCaptures() + amt )
+	self:SetCaptures( self:GetCaptures() + amt )
 	if SERVER then
 		CVAR.Update( self, "captures", self:GetCaptures() )
 		CVAR.Save( self )
@@ -92,7 +92,7 @@ end
 -- Returns
 
 function meta:AddReturns( amt )
-	self:SetMoney( self:GetReturns() + amt )
+	self:SetReturns( self:GetReturns() + amt )
 	if SERVER then
 		CVAR.Update( self, "returns", self:GetReturns() )
 		CVAR.Save( self )
