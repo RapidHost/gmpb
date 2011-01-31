@@ -37,6 +37,8 @@ function meta:PlayGameSound( snd )
 	end
 end
 
+-- Money
+
 function meta:AddMoney( amt )
 	self:SetMoney( self:GetMoney() + amt )
 	if SERVER then
@@ -63,4 +65,48 @@ end
 
 function meta:GetMoney()
 	return self:GetNWInt( "Mny" )
+end
+
+-- Captures
+
+function meta:AddCaptures( amt )
+	self:SetMoney( self:GetCaptures() + amt )
+	if SERVER then
+		CVAR.Update( self, "captures", self:GetCaptures() )
+		CVAR.Save( self )
+	end
+end
+
+function meta:SetCaptures( amt )
+	self:SetNWInt( "Cap", amt )
+	if SERVER then
+		CVAR.Update( self, "captures", self:GetCaptures() )
+		CVAR.Save( self )
+	end
+end
+
+function meta:GetCaptures()
+	return self:GetNWInt( "Cap" )
+end
+
+-- Returns
+
+function meta:AddReturns( amt )
+	self:SetMoney( self:GetReturns() + amt )
+	if SERVER then
+		CVAR.Update( self, "returns", self:GetReturns() )
+		CVAR.Save( self )
+	end
+end
+
+function meta:SetReturns( amt )
+	self:SetNWInt( "Rtn", amt )
+	if SERVER then
+		CVAR.Update( self, "returns", self:GetReturns() )
+		CVAR.Save( self )
+	end
+end
+
+function meta:GetReturns()
+	return self:GetNWInt( "Rtn" )
 end

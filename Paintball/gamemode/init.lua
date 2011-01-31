@@ -97,6 +97,22 @@ function GM:PlayerInitialSpawn( ply )
 			CVAR.New( ply, "money", 0 )
 		end
 	end
+	
+	if !( CVAR.Request(ply, "captures") == nil ) then
+		if CVAR.Request(ply, "captures") > 0 then
+			ply:SetCaptures( CVAR.Request( ply, "captures" ) )
+		else
+			CVAR.New( ply, "captures", 0 )
+		end
+	end
+	
+	if !( CVAR.Request(ply, "returns") == nil ) then
+		if CVAR.Request(ply, "returns") > 0 then
+			ply:SetReturns( CVAR.Request( ply, "returns" ) )
+		else
+			CVAR.New( ply, "returns", 0 )
+		end
+	end
 end
 
 hook.Add( "SetupPlayerVisibility", "AddFlagToVis", function( ply, viewent )
@@ -246,6 +262,7 @@ function GM:OnPlayerFlagCapture( ply, flag )
 	self:RoundEndWithResult( ply:Team() ) -- Round should end
 	ply:AddFrags( self:GetSetting( "PointsPerFlagCap" ) )
 	ply:AddMoney( self:GetSetting( "MoneyPerCapture" ) )
+	ply:AddCaptures( 1 )
 	team.AddScore( ply:Team(), 1 )
 	umsg.Start( "PlayerFlag" )
 		umsg.Entity( ply )
@@ -256,6 +273,7 @@ end
 function GM:OnPlayerFlagReturned( ply, flag )
 	ply:AddFrags( self:GetSetting( "PointsPerFlagReturn" ) )
 	ply:AddMoney( self:GetSetting( "MoneyPerReturn" ) )
+	ply:AddReturns( 1 )
 	self:PlayGameSound( "hl1/fvox/bell.wav" )
 	umsg.Start( "PlayerFlag" )
 		umsg.Entity( ply )
