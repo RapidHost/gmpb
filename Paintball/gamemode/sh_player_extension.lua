@@ -71,18 +71,10 @@ end
 
 function meta:AddCaptures( amt )
 	self:SetCaptures( self:GetCaptures() + amt )
-	if SERVER then
-		CVAR.Update( self, "captures", self:GetCaptures() )
-		CVAR.Save( self )
-	end
 end
 
 function meta:SetCaptures( amt )
 	self:SetNWInt( "Cap", amt )
-	if SERVER then
-		CVAR.Update( self, "captures", self:GetCaptures() )
-		CVAR.Save( self )
-	end
 end
 
 function meta:GetCaptures()
@@ -93,20 +85,68 @@ end
 
 function meta:AddReturns( amt )
 	self:SetReturns( self:GetReturns() + amt )
-	if SERVER then
-		CVAR.Update( self, "returns", self:GetReturns() )
-		CVAR.Save( self )
-	end
 end
 
 function meta:SetReturns( amt )
 	self:SetNWInt( "Rtn", amt )
-	if SERVER then
-		CVAR.Update( self, "returns", self:GetReturns() )
-		CVAR.Save( self )
-	end
 end
 
 function meta:GetReturns()
 	return self:GetNWInt( "Rtn" )
+end
+
+-- Outs
+
+function meta:AddOuts( amt )
+	self:SetOuts( self:GetOuts() + amt )
+end
+
+function meta:SetOuts( amt )
+	self:SetNWInt( "Out", amt )
+end
+
+function meta:GetOuts()
+	return self:GetNWInt( "Out" )
+end
+
+-- Tags (Like Frags but for PvP kills only instead of caps, returns, etc)
+
+function meta:AddTags( amt )
+	self:SetTags( self:GetTags() + amt )
+end
+
+function meta:SetTags( amt )
+	self:SetNWInt( "Tag", amt )
+end
+
+function meta:GetTags()
+	return self:GetNWInt( "Tag" )
+end
+
+-- Drops
+
+function meta:AddDrops( amt )
+	self:SetDrops( self:GetDrops() + amt )
+end
+
+function meta:SetDrops( amt )
+	self:SetNWInt( "Drop", amt )
+end
+
+function meta:GetDrops()
+	return self:GetNWInt( "Drop" )
+end
+
+-- Takes
+
+function meta:AddTakes( amt )
+	self:SetTakes( self:GetTakes() + amt )
+end
+
+function meta:SetTakes( amt )
+	self:SetNWInt( "Take", amt )
+end
+
+function meta:GetTakes()
+	return self:GetNWInt( "Take" )
 end

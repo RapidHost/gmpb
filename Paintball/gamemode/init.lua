@@ -97,22 +97,6 @@ function GM:PlayerInitialSpawn( ply )
 			CVAR.New( ply, "money", 0 )
 		end
 	end
-	
-	if !( CVAR.Request(ply, "captures") == nil ) then
-		if CVAR.Request(ply, "captures") > 0 then
-			ply:SetCaptures( CVAR.Request( ply, "captures" ) )
-		else
-			CVAR.New( ply, "captures", 0 )
-		end
-	end
-	
-	if !( CVAR.Request(ply, "returns") == nil ) then
-		if CVAR.Request(ply, "returns") > 0 then
-			ply:SetReturns( CVAR.Request( ply, "returns" ) )
-		else
-			CVAR.New( ply, "returns", 0 )
-		end
-	end
 end
 
 hook.Add( "SetupPlayerVisibility", "AddFlagToVis", function( ply, viewent )
@@ -222,6 +206,8 @@ function GM:OnPlayerTagged( ply, paintball, attacker )
 		umsg.End()
 		
 		attacker:AddFrags( 1 )
+		attacker:AddTags( 1 )
+		ply:AddOuts( 1 )
 		
 		attacker:AddMoney( self:GetSetting( "MoneyPerKill" ) )
 		ply:AddMoney( self:GetSetting( "MoneyPerDeath" ) )
@@ -251,6 +237,7 @@ end
 function GM:OnPlayerFlagTake( ply, flag )
 	ply:AddFrags( self:GetSetting( "PointsPerFlagTake" ) )
 	ply:AddMoney( self:GetSetting( "MoneyPerTake" ) )
+	ply:AddTakes( 1 )
 	self:PlayGameSound( "ambient/alarms/klaxon1.wav" )
 	umsg.Start( "PlayerFlag" )
 		umsg.Entity( ply )
@@ -284,6 +271,7 @@ end
 function GM:OnPlayerFlagDropped( ply, flag )
 	ply:AddFrags( self:GetSetting( "PointsPerFlagDrop" ) )
 	ply:AddMoney( self:GetSetting( "MoneyPerDrop" ) )
+	ply:AddDrops( 1 )
 	self:PlayGameSound( "npc/roller/code2.wav" )
 	umsg.Start( "PlayerFlag" )
 		umsg.Entity( ply )

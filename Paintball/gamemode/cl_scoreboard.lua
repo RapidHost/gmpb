@@ -86,6 +86,12 @@ hook.Add( "HUDPaint", "GMPB_Scoreboard", function()
 		draw.SimpleText( "Ping", "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - pingw, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		local scorew, scoreh = surface.GetTextSize( "Score" )
 		draw.SimpleText( "Score", "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - pingw - scorew - 10, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		local outw, outh = surface.GetTextSize( "Outs" )
+		draw.SimpleText( "Outs", "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - scorew - outw - 55, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		local returnw, returnh = surface.GetTextSize( "Returns" )
+		draw.SimpleText( "Returns", "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - outw - returnw - 95, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		local capturew, captureh = surface.GetTextSize( "Captures" )
+		draw.SimpleText( "Captures", "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - returnw - capturew - 135, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		
 		for i, ply in pairs( team.GetPlayers( TEAM_RED or 1001 ) ) do
 			surface.SetDrawColor( GSC( "PlayerRow" .. ( i % 2 ) ) )
@@ -93,6 +99,9 @@ hook.Add( "HUDPaint", "GMPB_Scoreboard", function()
 			draw.SimpleText( ply:Nick(), "GMPBPlayers", Scoreboard.PXpos + 15 + w, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow * i ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 			draw.SimpleText( ply:Ping(), "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - pingw, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow * i ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 			draw.SimpleText( ply:Frags(), "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - pingw - scorew - 10, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow * i ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.SimpleText( ply:GetOuts(), "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - scorew - outw - 55, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow * i ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.SimpleText( ply:GetReturns(), "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - outw - returnw - 95, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow * i ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.SimpleText( ply:GetCaptures(), "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - returnw - capturew - 135, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow * i ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		end
 		
 		Scoreboard.PXpos = Scoreboard.XPos + ( Scoreboard.Width / 2 )
@@ -112,6 +121,12 @@ hook.Add( "HUDPaint", "GMPB_Scoreboard", function()
 		draw.SimpleText( "Ping", "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - pingw, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		local scorew, scoreh = surface.GetTextSize( "Score" )
 		draw.SimpleText( "Score", "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - pingw - scorew - 10, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		local outw, outh = surface.GetTextSize( "Outs" )
+		draw.SimpleText( "Outs", "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - scorew - outw - 55, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		local returnw, returnh = surface.GetTextSize( "Returns" )
+		draw.SimpleText( "Returns", "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - outw - returnw - 95, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+		local capturew, captureh = surface.GetTextSize( "Captures" )
+		draw.SimpleText( "Captures", "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - returnw - capturew - 135, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		
 		for i, ply in pairs( team.GetPlayers( TEAM_BLUE or 1001 ) ) do
 			surface.SetDrawColor( GSC( "PlayerRow" .. ( i % 2 ) ) )
@@ -119,6 +134,9 @@ hook.Add( "HUDPaint", "GMPB_Scoreboard", function()
 			draw.SimpleText( ply:Nick(), "GMPBPlayers", Scoreboard.PXpos + 15 + w, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow * i ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER )
 			draw.SimpleText( ply:Ping(), "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - pingw, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow * i ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 			draw.SimpleText( ply:Frags(), "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - pingw - scorew - 10, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow * i ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.SimpleText( ply:GetOuts(), "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - scorew - outw - 55, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow * i ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.SimpleText( ply:GetReturns(), "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - outw - returnw - 95, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow * i ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
+			draw.SimpleText( ply:GetCaptures(), "GMPBPlayers", Scoreboard.PXpos + ( Scoreboard.Width / 2 ) - returnw - capturew - 135, Scoreboard.YPos + ( Scoreboard.Top * 2 ) + ( Scoreboard.PlayerRow * i ) + ( Scoreboard.PlayerRow / 2 ), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 		end
 		
 	end
