@@ -1,0 +1,1 @@
+Garry's Mod Paintball is a paintball mod for Garry's Mod 10
